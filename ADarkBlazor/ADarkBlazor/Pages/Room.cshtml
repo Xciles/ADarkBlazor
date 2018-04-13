@@ -1,0 +1,40 @@
+﻿@using System.Collections
+@using ADarkBlazor.Domain
+@using System.Collections.Generic
+@using System.Threading
+@using System.Threading.Tasks
+@using ADarkBlazor.Services
+@inject ApplicationState state
+@page "/room"
+
+<h1>The Room</h1>
+
+<div class="col-md-3">
+    <ul>
+        @foreach (var todo in state.PrintedInformation)
+        {
+            <li>
+                <label>@todo.Info</label>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="col-md-6">
+    <ul>
+        @foreach (var todo in state.PrintedInformation)
+        {
+            <li>
+                <label>@todo.Info</label>
+            </li>
+        }
+    </ul>
+</div>
+
+
+@functions {
+    protected override void OnInit()
+    {
+        state.OnChange += StateHasChanged;
+    }
+}

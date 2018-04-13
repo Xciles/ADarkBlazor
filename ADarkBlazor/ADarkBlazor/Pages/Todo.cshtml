@@ -1,0 +1,36 @@
+﻿@using ADarkBlazor.Domain;
+@page "/todo"
+
+    <h1>Todo</h1>
+
+    <ul>
+        @foreach (var todo in todos)
+        {
+            <li>
+                <input type="checkbox" @bind(todo.IsDone) />
+                <input @bind(todo.Title) />
+            </li>
+        }
+    </ul>
+
+    <input placeholder="Something todo" @bind(newTodo) />
+    <button @onclick(AddTodo)>Add todo</button>
+
+@functions {
+    IList<TodoItem> todos = new List<TodoItem>();
+    string newTodo;
+
+    void AddTodo()
+    {
+        // Todo: Add the todo
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem
+            {
+                IsDone = false,
+                Title = newTodo
+            });
+            newTodo = "";
+        }
+    }
+}

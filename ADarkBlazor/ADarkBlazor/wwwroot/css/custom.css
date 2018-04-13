@@ -1,0 +1,22 @@
+﻿div {
+    display: block;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+div#information {
+    top: 20px;
+    left: 0px;
+    height: 700px;
+    width: 200px;
+    overflow: hidden;
+}
+
+div#content {
+    float: left;
+    height: 700px;
+    overflow: hidden;
+}
