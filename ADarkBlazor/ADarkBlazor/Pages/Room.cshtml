@@ -21,14 +21,15 @@
 </div>
 
 <div class="col-md-6">
-    <ul>
-        @foreach (var todo in state.PrintedInformation)
-        {
-            <li>
-                <label>@todo.Info</label>
-            </li>
-        }
-    </ul>
+    <button @onclick(state.AddRoomInfo)>Add Different Info</button>
+    @if (state.IsTrue)
+    {
+        <button @onclick(state.AddRoomInfo)>Add Different Info</button>
+    }
+    else
+    {
+        <button @onclick(state.AddRoomInfo) disabled style="background: yellow">Add Different Info</button>
+    }
 </div>
 
 

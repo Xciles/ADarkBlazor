@@ -1,4 +1,7 @@
-﻿<div class='main-nav'>
+﻿@using ADarkBlazor.Services.Interfaces
+@inject IVisibilityService visibility
+
+<div class='main-nav'>
     <div class='navbar navbar-inverse'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
@@ -37,7 +40,25 @@
                         <span class='glyphicon glyphicon-th-list'></span> Room
                     </NavLink>
                 </li>
+                <li>
+                </li>
+
+                @foreach (var menuItem in visibility.Menu)
+                {
+                    <li>
+                        <NavLink href="@menuItem.HRef">
+                            <span class='glyphicon @menuItem.Icon'></span> @menuItem.Description
+                        </NavLink>
+                    </li>
+                }
             </ul>
         </div>
     </div>
 </div>
+
+@functions {
+    protected override void OnInit()
+    {
+        visibility.OnChange += StateHasChanged;
+    }
+}
