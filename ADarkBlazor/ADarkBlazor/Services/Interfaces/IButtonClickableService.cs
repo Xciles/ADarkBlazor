@@ -2,5 +2,6 @@
 {
     public interface IButtonClickableService
     {
+        bool ButtonEvent { get; set; }
     }
 }
