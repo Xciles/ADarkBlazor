@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ADarkBlazor.Services.Domain.Enums;
 
 namespace ADarkBlazor.Services.Buttons
@@ -10,7 +11,7 @@ namespace ADarkBlazor.Services.Buttons
         bool IsClickable { get; set; }
         EButtonType ButtonType { get; set; }
 
-        bool Invoke();
+        void Invoke();
     }
 
     public interface IStory : IButtonBase
@@ -18,16 +19,21 @@ namespace ADarkBlazor.Services.Buttons
 
     }
 
-
     public abstract class ButtonBase : IButtonBase
     {
         public event Action OnChange;
-        private void NotifyStateChanged() => OnChange?.Invoke();
-        private readonly ApplicationState _state;
+
+        protected void NotifyStateChanged()
+        {
+            OnChange?.Invoke();
+            _state.NotifyStateChanged();
+        }
+
+        protected readonly ApplicationState _state;
         public bool IsVisible { get; set; }
         public bool IsClickable { get; set; }
         public virtual EButtonType ButtonType { get; set; }
-        public abstract bool Invoke();
+        public abstract void Invoke();
 
         protected ButtonBase(ApplicationState state)
         {
@@ -37,13 +43,29 @@ namespace ADarkBlazor.Services.Buttons
 
     public class StoryButton : ButtonBase, IStory
     {
-        public override bool Invoke()
+        private Timer _timer;
+
+        public StoryButton(ApplicationState state) : base (state)
         {
-            throw new NotImplementedException();
+            var var = "";
+            string @string = "";
+            IsVisible = true;
+            IsClickable = true;
         }
 
-        public StoryButton(ApplicationState state) : base(state)
+        public override void Invoke()
         {
+            IsClickable = false;
+            NotifyStateChanged();
+            _state.AddRoomInfo();
+            _timer?.Dispose();
+            _timer = new Timer(Callback, null, 1_000, -1);
+        }
+
+        private void Callback(object state)
+        {
+            IsClickable = true;
+            NotifyStateChanged();
         }
     }
 }

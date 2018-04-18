@@ -23,19 +23,19 @@ namespace ADarkBlazor
                 configure.AddScoped<IUserInputService, UserInputService>();
                 configure.AddScoped<IVisibilityService, VisibilityService>();
 
-                //configure.AddScoped<IStory, StoryButton>();
+                configure.AddScoped<IStory, StoryButton>();
 
-                var type = typeof(IButtonBase);
-                var types = AppDomain.CurrentDomain.GetAssemblies()
-                                        .SelectMany(s => s.GetTypes())
-                                        .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract && p.IsInterface);
+                //var type = typeof(IButtonBase);
+                //var types = AppDomain.CurrentDomain.GetAssemblies()
+                //                        .SelectMany(s => s.GetTypes())
+                //                        .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract && p.IsInterface);
 
 
-                foreach (var type1 in types)
-                {
-                    configure.AddScoped(type1.GetInterfaces()[1], type1);
-                    //type1.inter
-                }
+                //foreach (var type1 in types)
+                //{
+                //    configure.AddScoped(type1.GetInterfaces()[1], type1);
+                //    //type1.inter
+                //}
             });
 
 

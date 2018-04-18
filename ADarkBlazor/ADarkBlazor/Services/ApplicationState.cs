@@ -16,7 +16,7 @@ namespace ADarkBlazor.Services
     {
         private readonly IServiceProvider _provider;
         public event Action OnChange;
-        private void NotifyStateChanged() => OnChange?.Invoke();
+        public void NotifyStateChanged() => OnChange?.Invoke();
         private Timer _timer;
         private Timer _unlockTimer;
 
@@ -43,15 +43,12 @@ namespace ADarkBlazor.Services
                                     .SelectMany(s => s.GetTypes())
                                     .Where(p => p.IsInterface && p.GetInterfaces().Contains(type));
 
-                AddSomethingToInformation($"Just some info: ");
             foreach (var type1 in types)
             {
                 AddSomethingToInformation($"Just some info: {type1.Name}");
+
                 _buttons.Add((IButtonBase)_provider.GetService(type1));
             }
-
-
-            //_buttons = _provider.GetServices<IButtonBase>().ToList();
         }
 
         private void AddSomethingToInformation(string strToAdd)

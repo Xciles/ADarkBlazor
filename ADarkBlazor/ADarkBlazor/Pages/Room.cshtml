@@ -1,12 +1,9 @@
-﻿@using System.Collections
-@using ADarkBlazor.Domain
-@using System.Collections.Generic
-@using System.Threading
-@using System.Threading.Tasks
-@using ADarkBlazor.Services
+﻿@using ADarkBlazor.Services
 @using ADarkBlazor.Services.Interfaces
+@using ADarkBlazor.Services.Buttons
 @inject ApplicationState state
 @inject IButtonClickableService clickable
+@inject IStory story
 @page "/room"
 
 <h1>The Room</h1>
@@ -23,14 +20,14 @@
 </div>
 
 <div class="col-md-6">
-    <button @onclick(state.AddRoomInfo)>Add Different Info</button>
-    @if (clickable.ButtonEvent)
+    <button @onclick(story.Invoke)>Add Different Info</button>
+    @if (story.IsClickable)
     {
-        <button @onclick(state.AddRoomInfo)>Add Different Info</button>
+        <button @onclick(story.Invoke)>Add Different Info</button>
     }
     else
     {
-        <button @onclick(state.AddRoomInfo) disabled style="background: yellow">Add Different Info</button>
+        <button @onclick(story.Invoke) disabled style="background: yellow">Add Different Info</button>
     }
 </div>
 
@@ -40,5 +37,6 @@
     {
         state.RegisterButtons();
         state.OnChange += StateHasChanged;
+        story.OnChange += StateHasChanged;
     }
 }
