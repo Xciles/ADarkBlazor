@@ -20,15 +20,18 @@
 </div>
 
 <div class="col-md-6">
-    <button @onclick(story.Invoke)>Add Different Info</button>
-    @if (story.IsClickable)
-    {
-        <button @onclick(story.Invoke)>Add Different Info</button>
-    }
-    else
-    {
-        <button @onclick(story.Invoke) disabled style="background: yellow">Add Different Info</button>
-    }
+    <button onclick="@story.Invoke">Add Different Info</button>
+    <button onclick="@story.Invoke" disabled="@story.IsClickable">Add Different Info</button>
+    <input type="checkbox" checked="@story.IsClickable" />
+
+    @*@if (story.IsClickable)
+        {
+            <button @onclick(story.Invoke)>Add Different Info</button>
+        }
+        else
+        {
+            <button @onclick(story.Invoke) disabled style="background: yellow">Add Different Info</button>
+        }*@
 </div>
 
 
