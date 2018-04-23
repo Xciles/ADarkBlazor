@@ -16,9 +16,9 @@ namespace ADarkBlazor
             var serviceProvider = new BrowserServiceProvider(configure =>
             {
                 // Add any custom services here
+                configure.AddScoped<IStoryService, StoryService>();
+
                 configure.AddScoped<ApplicationState>();
-                configure.AddScoped<IButtonClickableService, ButtonClickableService>();
-                configure.AddScoped<IButtonVisibilityService, ButtonVisibilityService>();
                 configure.AddScoped<IResourceService, ResourceService>();
                 configure.AddScoped<IUserInputService, UserInputService>();
                 configure.AddScoped<IVisibilityService, VisibilityService>();

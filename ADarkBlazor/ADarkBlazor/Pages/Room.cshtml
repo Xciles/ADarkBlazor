@@ -2,7 +2,7 @@
 @using ADarkBlazor.Services.Interfaces
 @using ADarkBlazor.Services.Buttons
 @inject ApplicationState state
-@inject IButtonClickableService clickable
+@inject IStoryService storyService
 @inject IStory story
 @page "/room"
 
@@ -10,7 +10,7 @@
 
 <div class="col-md-3">
     <ul>
-        @foreach (var todo in state.PrintedInformation)
+        @foreach (var todo in storyService.StoryOutputs)
         {
             <li>
                 <label>@todo.Info</label>
@@ -30,5 +30,6 @@
         state.RegisterButtons();
         state.OnChange += StateHasChanged;
         story.OnChange += StateHasChanged;
+        storyService.OnChange += StateHasChanged;
     }
 }

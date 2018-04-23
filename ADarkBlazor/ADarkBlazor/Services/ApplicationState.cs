@@ -19,31 +19,19 @@ namespace ADarkBlazor.Services
         public event Action OnChange;
         public void NotifyStateChanged() => OnChange?.Invoke();
         private Timer _saveStateTimer;
-        private Timer _timer;
-        private Timer _unlockTimer;
 
-        public IList<OutputInfo> PrintedInformation { get; private set; } = new List<OutputInfo>();
-        public IVisibilityService Visibility { get; set; }
         private IList<IButtonBase> _buttons = new List<IButtonBase>();
 
-        public ApplicationState(IVisibilityService visibility, IServiceProvider provider)
+        public ApplicationState(IServiceProvider provider)
         {
             _provider = provider;
-            Visibility = visibility;
             _saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
-            _timer = new Timer(TimerCallback, null, 1_000, 1_000);
             ReadState();
         }
 
         private void SaveStateTimerCallback(object state)
         {
             SaveState();
-            AddSomethingToInformation("State Saved");
-        }
-
-        private void TimerCallback(object state)
-        {
-            AddSomethingToInformation($"Just some info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {PrintedInformation.Count} - {_buttons.Count}");
         }
 
         public void RegisterButtons()
@@ -55,40 +43,18 @@ namespace ADarkBlazor.Services
 
             foreach (var type1 in types)
             {
-                AddSomethingToInformation($"Just some info: {type1.Name}");
-
                 _buttons.Add((IButtonBase)_provider.GetService(type1));
             }
         }
-
-        private void AddSomethingToInformation(string strToAdd)
-        {
-            PrintedInformation.Insert(0, new OutputInfo { Info = strToAdd });
-
-            if (PrintedInformation.Count > 30) PrintedInformation.RemoveAt(30);
-
-            NotifyStateChanged();
-        }
-
-        public void AddRoomInfo()
-        {
-            AddSomethingToInformation($"Add thing");
-            _unlockTimer?.Dispose();
-            _unlockTimer = new Timer(state =>
-            {
-                Visibility.Unlock(EMenuType.Test);
-            }, null, 1_000, -1);
-        }
-
+        
         private void SaveState()
         {
-            Browser.WriteStorage("AppState", $"Saved info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {PrintedInformation.Count} - {_buttons.Count}");
+            Browser.WriteStorage("AppState", $"Saved info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {_buttons.Count}");
         }
 
         private void ReadState()
         {
             var str = Browser.ReadStorage("AppState");
-            AddSomethingToInformation(str);
         }
     }
 }

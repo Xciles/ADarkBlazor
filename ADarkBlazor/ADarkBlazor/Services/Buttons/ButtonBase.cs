@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using ADarkBlazor.Services.Domain.Enums;
+using ADarkBlazor.Services.Interfaces;
 
 namespace ADarkBlazor.Services.Buttons
 {
@@ -10,6 +11,7 @@ namespace ADarkBlazor.Services.Buttons
         bool IsVisible { get; set; }
         bool IsClickable { get; set; }
         EButtonType ButtonType { get; set; }
+        string Title { get; set; }
 
         void Invoke();
     }
@@ -33,6 +35,7 @@ namespace ADarkBlazor.Services.Buttons
         public bool IsVisible { get; set; }
         public bool IsClickable { get; set; }
         public virtual EButtonType ButtonType { get; set; }
+        public string Title { get; set; }
         public abstract void Invoke();
 
         protected ButtonBase(ApplicationState state)
@@ -43,21 +46,25 @@ namespace ADarkBlazor.Services.Buttons
 
     public class StoryButton : ButtonBase, IStory
     {
+        private readonly IStoryService _storyService;
         private Timer _timer;
 
-        public StoryButton(ApplicationState state) : base (state)
+        public StoryButton(ApplicationState state, IStoryService storyService) : base (state)
         {
-            var var = "";
-            string @string = "";
+            _storyService = storyService;
             IsVisible = true;
             IsClickable = true;
+            Title = "create fire";
         }
 
         public override void Invoke()
         {
+            Title = "stoke fire";
             IsClickable = false;
+            
+
+
             NotifyStateChanged();
-            _state.AddRoomInfo();
             _timer?.Dispose();
             _timer = new Timer(Callback, null, 1_000, -1);
         }
@@ -66,6 +73,8 @@ namespace ADarkBlazor.Services.Buttons
         {
             IsClickable = true;
             NotifyStateChanged();
+
+            _storyService.Invoke();
         }
     }
 }
