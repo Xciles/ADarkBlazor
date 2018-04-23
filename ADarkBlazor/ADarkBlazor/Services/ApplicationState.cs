@@ -8,6 +8,7 @@ using ADarkBlazor.Services.Buttons;
 using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
+using BlazorExtensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor.Services
@@ -17,6 +18,7 @@ namespace ADarkBlazor.Services
         private readonly IServiceProvider _provider;
         public event Action OnChange;
         public void NotifyStateChanged() => OnChange?.Invoke();
+        private Timer _saveStateTimer;
         private Timer _timer;
         private Timer _unlockTimer;
 
@@ -28,7 +30,15 @@ namespace ADarkBlazor.Services
         {
             _provider = provider;
             Visibility = visibility;
+            _saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
             _timer = new Timer(TimerCallback, null, 1_000, 1_000);
+            ReadState();
+        }
+
+        private void SaveStateTimerCallback(object state)
+        {
+            SaveState();
+            AddSomethingToInformation("State Saved");
         }
 
         private void TimerCallback(object state)
@@ -68,6 +78,17 @@ namespace ADarkBlazor.Services
             {
                 Visibility.Unlock(EMenuType.Test);
             }, null, 1_000, -1);
+        }
+
+        private void SaveState()
+        {
+            Browser.WriteStorage("AppState", $"Saved info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {PrintedInformation.Count} - {_buttons.Count}");
+        }
+
+        private void ReadState()
+        {
+            var str = Browser.ReadStorage("AppState");
+            AddSomethingToInformation(str);
         }
     }
 }
