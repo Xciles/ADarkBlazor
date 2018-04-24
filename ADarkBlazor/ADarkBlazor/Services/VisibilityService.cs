@@ -15,7 +15,7 @@ namespace ADarkBlazor.Services
         public IList<MenuItem> Menu { get; set; } = new List<MenuItem>();
         private IList<MenuItem> _availableMenuItems = new List<MenuItem>
         {
-            new MenuItem{ Type = EMenuType.Test, Description = "Test Item", HRef = "/room", Icon = "glyphicon-education"}
+            new MenuItem { Type = EMenuType.Test, Description = "Test Item", HRef = "/room", Icon = "glyphicon-education" }
         };
 
         public void Unlock(EMenuType menuType)

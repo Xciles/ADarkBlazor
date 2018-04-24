@@ -1,6 +1,7 @@
 ﻿div {
     display: block;
 }
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -19,4 +20,71 @@ div#content {
     float: left;
     height: 700px;
     overflow: hidden;
+}
+
+div.button {
+    position: relative;
+    text-align: center;
+    border: 1px solid black;
+    width: 200px;
+    margin-bottom: 0px;
+    padding: 5px 10px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.redBorder {
+    border: 1px solid #630b0b;
+}
+
+div.button div.cooldown {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    height: 100%;
+    background-color: #E2DCDC;
+    overflow: hidden;
+}
+
+.waitAnimation {
+    width: 200px;
+    height: 100px;
+    background: red;
+    -webkit-animation: animationWidth 4s linear; /* Safari 4.0 - 8.0 */
+    animation: animationWidth 4s linear;
+    padding: 0px 0px 10px 0px;
+}
+
+@keyframes animationWidth {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}
+
+.resources {
+    border: 1px solid black;
+    padding: 5px 10px;
+}
+
+.resources:before {
+    position: absolute;
+    background: white;
+    content: attr(data-legend);
+    left: 8px;
+    top: -13px;
+    padding: 0px 5px;
+    margin: 0px 10px;
+}
+
+td.rightAlign {
+    text-align: right;
 }

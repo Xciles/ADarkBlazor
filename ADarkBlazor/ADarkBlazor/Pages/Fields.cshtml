@@ -1,0 +1,62 @@
+﻿@using ADarkBlazor.Services
+@using ADarkBlazor.Services.Interfaces
+@using ADarkBlazor.Services.Buttons
+@inject ApplicationState state
+@inject IStoryService storyService
+@inject IStory story
+@page "/fields"
+
+<h1>The Forgotten Fields | @state.Test()</h1>
+
+<div class="col-md-3">
+    <ul>
+        @foreach (var storyOutput in storyService.StoryOutputs)
+        {
+            <li>
+                <label>@storyOutput.Info</label>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="col-md-4">
+    <div class=@(story.IsClickable ? "button" : "button redBorder") onclick="@story.Invoke">
+        @story.Title
+        <div class=@(story.IsClickable ? "cooldown" : "cooldown waitAnimation")></div>
+    </div>
+</div>
+
+<div class="col-md-2">
+    <div data-legend="Resources" class="resources">
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th width="60%"></th>
+                    <th width="40%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wood</td>
+                    <td class="rightAlign">1000</td>
+                </tr>
+                <tr>
+                    <td>Stuff</td>
+                    <td class="rightAlign">10</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+@functions {
+    protected override void OnInit()
+    {
+        state.RegisterButtons();
+        state.OnChange += StateHasChanged;
+        story.OnChange += StateHasChanged;
+        storyService.OnChange += StateHasChanged;
+    }
+}

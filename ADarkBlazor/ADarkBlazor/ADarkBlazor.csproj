@@ -15,7 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Resources\" />
+    <BlazorGenerate Remove="Pages\Fields.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BlazorGenerate Remove="Pages\Reef.cshtml" />
   </ItemGroup>
 
 </Project>

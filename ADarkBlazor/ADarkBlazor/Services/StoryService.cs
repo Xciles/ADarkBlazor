@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
@@ -12,13 +13,15 @@ namespace ADarkBlazor.Services
         public void NotifyStateChanged() => OnChange?.Invoke();
 
         private readonly ApplicationState _state;
+        private readonly IResourceService _resourceService;
         public IList<OutputInfo> StoryOutputs { get; set; } = new List<OutputInfo>();
-        private EStoryProgression _progression = EStoryProgression.Initial;
+        private EStoryProgression _progression = EStoryProgression.FindWood;
 
 
-        public StoryService(ApplicationState state)
+        public StoryService(ApplicationState state, IResourceService resourceService)
         {
             _state = state;
+            _resourceService = resourceService;
 
             AddOutput("the field is icy cold");
             AddOutput("there is no fire...");
@@ -38,20 +41,69 @@ namespace ADarkBlazor.Services
             switch (storyEventType)
             {
                 case EStoryEventType.StoryEvent:
-                {
-                    HandleStory();
-                    break;
-                }
+                    {
+                        HandleStory();
+                        break;
+                    }
                 default:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
             }
         }
 
         private void HandleStory()
         {
-            AddOutput("there is no fire...");
+            // Big bad switch
+            // Replace with something else at a later stage...
+            switch (_progression)
+            {
+                case EStoryProgression.FindWood:
+                    {
+                        AddOutput(@"you search the field for branches. you found something you can burn");
+                        break;
+                    }
+                case EStoryProgression.FireInitial:
+                    {
+                        AddOutput(@"you start to light the fire");
+                        AddOutput(@"the fire starts to burn");
+                        break;
+                    }
+                case EStoryProgression.FireLit:
+                    {
+                        AddOutput(@"the area is still cold");
+                        break;
+                    }
+                case EStoryProgression.FireCold:
+                    {
+                        AddOutput(@"the fire keeps burning");
+                        Timer time = new Timer((_) => AddOutput(@"a strange shivering creature joins you next to the fire"), null, 5_000, -1);
+                        break;
+                    }
+                case EStoryProgression.FireWarm:
+                    {
+                        AddOutput(@"the area is getting warmer");
+                        break;
+                    }
+                case EStoryProgression.FireWarmer:
+                    {
+                        AddOutput(@"the area is warm");
+                        break;
+                    }
+                case EStoryProgression.FireHot:
+                    {
+                        AddOutput(@"the area is hot");
+                        Timer timer = new Timer((_) => AddOutput(@"the strange creature shifts into a humanoid form"), null, 5_000, -1);
+                        break;
+                    }
+                case EStoryProgression.Initial:
+                default:
+                    {
+                        AddOutput(@"the area is hot");
+
+                        break;
+                    }
+            }
             _progression++;
         }
     }

@@ -56,5 +56,10 @@ namespace ADarkBlazor.Services
         {
             var str = Browser.ReadStorage("AppState");
         }
+
+        public string Test()
+        {
+            return $"{DateTime.Now:HH:mm:ss}";
+        }
     }
 }
