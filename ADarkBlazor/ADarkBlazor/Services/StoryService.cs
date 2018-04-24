@@ -61,12 +61,15 @@ namespace ADarkBlazor.Services
                 case EStoryProgression.FindWood:
                     {
                         AddOutput(@"you search the field for branches. you found something you can burn");
+                        _resourceService.AddToResource(EResourceType.Wood, 10);
+                        _resourceService.EnableResource(EResourceType.Wood);
                         break;
                     }
                 case EStoryProgression.FireInitial:
                     {
                         AddOutput(@"you start to light the fire");
                         AddOutput(@"the fire starts to burn");
+                        _resourceService.SubtractFromResource(EResourceType.Wood, 5);
                         break;
                     }
                 case EStoryProgression.FireLit:

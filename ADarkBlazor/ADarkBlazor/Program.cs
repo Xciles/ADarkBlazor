@@ -5,6 +5,7 @@ using System.Linq;
 using ADarkBlazor.Services;
 using ADarkBlazor.Services.Buttons;
 using ADarkBlazor.Services.Interfaces;
+using ADarkBlazor.Services.Resources;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor
@@ -16,14 +17,16 @@ namespace ADarkBlazor
             var serviceProvider = new BrowserServiceProvider(configure =>
             {
                 // Add any custom services here
-                configure.AddScoped<IStoryService, StoryService>();
 
                 configure.AddScoped<ApplicationState>();
                 configure.AddScoped<IResourceService, ResourceService>();
+                configure.AddScoped<IStoryService, StoryService>();
                 configure.AddScoped<IUserInputService, UserInputService>();
                 configure.AddScoped<IVisibilityService, VisibilityService>();
 
                 configure.AddScoped<IStory, StoryButton>();
+
+                configure.AddScoped<IWood, Wood>();
 
                 //var type = typeof(IButtonBase);
                 //var types = AppDomain.CurrentDomain.GetAssemblies()

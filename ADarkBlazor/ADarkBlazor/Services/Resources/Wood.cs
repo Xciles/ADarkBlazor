@@ -1,20 +1,12 @@
-﻿namespace ADarkBlazor.Services.Resources
+﻿using ADarkBlazor.Services.Interfaces;
+
+namespace ADarkBlazor.Services.Resources
 {
-    public interface IResource
+    public class Wood : Resource, IWood
     {
-
-    }
-
-    public class Resource : IResource
-    {
-
-    }
-
-    public interface IWood : IResource
-    {
-    }
-
-    public class Wood : IWood
-    {
+        public Wood(IResourceService resourceService) : base(resourceService)
+        {
+            Name = "Wood";
+        }
     }
 }

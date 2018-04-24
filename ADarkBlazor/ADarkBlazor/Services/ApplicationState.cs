@@ -45,6 +45,8 @@ namespace ADarkBlazor.Services
             {
                 _buttons.Add((IButtonBase)_provider.GetService(type1));
             }
+
+            _provider.GetService<IResourceService>().RegisterReources(_provider);
         }
         
         private void SaveState()

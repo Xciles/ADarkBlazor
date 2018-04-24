@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ADarkBlazor.Services.Buttons;
-using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Resources;
@@ -11,9 +9,15 @@ namespace ADarkBlazor.Services
 {
     public class ResourceService : IResourceService
     {
-        private IList<IResource> _resources = new List<IResource>();
+        private ApplicationState _state;
+        public event Action OnChange;
+        public void NotifyStateChanged() => OnChange?.Invoke();
+        public IList<IResource> Resources { get; set; } = new List<IResource>();
 
-
+        public ResourceService(ApplicationState state)
+        {
+            _state = state;
+        }
 
         public void RegisterReources(IServiceProvider provider)
         {
@@ -24,8 +28,23 @@ namespace ADarkBlazor.Services
 
             foreach (var type1 in types)
             {
-                _resources.Add((IResource)provider.GetService(type1));
+                Resources.Add((IResource)provider.GetService(type1));
             }
+        }
+
+        public void EnableResource(EResourceType type)
+        {
+            Resources.First(x => x.ResourceType == type).Enable();
+        }
+
+        public void AddToResource(EResourceType type, double amount)
+        {
+            Resources.First(x => x.ResourceType == type).Add(amount);
+        }
+
+        public void SubtractFromResource(EResourceType type, double amount)
+        {
+            Resources.First(x => x.ResourceType == type).Subtract(amount);
         }
     }
 }
