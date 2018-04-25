@@ -2,6 +2,7 @@
 {
     public enum EMenuType
     {
-        Test = 0,
+        Reef = 0,
+        Woods
     }
 }

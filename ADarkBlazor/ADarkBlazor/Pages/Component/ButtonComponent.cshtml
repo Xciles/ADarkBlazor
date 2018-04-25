@@ -1,0 +1,15 @@
+﻿@using ADarkBlazor.Services.Buttons
+
+<div class=@(!ButtonBase.IsClickable ? "notClickable" : "")>
+    <div class=@(!ButtonBase.IsClickable ? "button redBorder" : "button") onclick="@ButtonBase.Invoke">
+        @ButtonBase.Title
+        <div class="cooldownResizeContainer" style=@(!ButtonBase.IsClickable ? $"width: calc((100% / {ButtonBase.Cooldown}) * {ButtonBase.RemainingCooldown});" : "")>
+            <div class="cooldown" style=@(!ButtonBase.IsClickable ? $"animation: animationWidth {ButtonBase.RemainingCooldown}ms linear;" : "")></div>
+        </div>
+    </div>
+</div>
+
+@functions
+{
+    public IButtonBase ButtonBase { get; set; }
+}

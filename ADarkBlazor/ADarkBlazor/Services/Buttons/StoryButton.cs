@@ -1,41 +1,55 @@
 ﻿using System.Threading;
+using ADarkBlazor.Exceptions;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
+using ADarkBlazor.Services.Resources;
 
 namespace ADarkBlazor.Services.Buttons
 {
     public class StoryButton : ButtonBase, IStory
     {
         private readonly IStoryService _storyService;
-        private Timer _timer;
+        private readonly IWood _wood;
+        private int _numberOfClicks;
 
-        public StoryButton(ApplicationState state, IStoryService storyService) : base(state)
+        public StoryButton(ApplicationState state, IStoryService storyService, IWood wood) : base(state)
         {
             _storyService = storyService;
+            _wood = wood;
             IsVisible = true;
             IsClickable = true;
             Title = "search wood";
+            Cooldown = 5_000;
         }
 
-        public override void Invoke()
+        public override void InvokeImplementation()
         {
-            if (IsClickable)
+            try
             {
                 IsClickable = false;
-                Title = "stoke fire";
+                if (_numberOfClicks == 1)
+                {
+                    Title = "light fire";
+                    _numberOfClicks++;
+                }
+                else if (_numberOfClicks > 2)
+                {
+                    Title = "stoke fire";
+                    _wood.Subtract(1);
+                }
+
+                _numberOfClicks++;
 
                 _storyService.Invoke(EStoryEventType.StoryEvent);
-
-                NotifyStateChanged();
-                _timer?.Dispose();
-                _timer = new Timer(Callback, null, 4_000, -1);
+            }
+            catch (ResourceException)
+            {
+                _storyService.Invoke(EStoryEventType.NoMoreWoodEvent);
             }
         }
 
-        private void Callback(object state)
+        public override void TimerFinished()
         {
-            IsClickable = true;
-            NotifyStateChanged();
         }
     }
 }

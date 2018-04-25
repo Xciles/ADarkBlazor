@@ -1,4 +1,5 @@
 ﻿using System;
+using ADarkBlazor.Exceptions;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 
@@ -26,6 +27,7 @@ namespace ADarkBlazor.Services.Resources
         public virtual void Subtract(double amount)
         {
             if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount));
+            if (Amount <= 0) throw new ResourceException();
 
             Amount -= amount;
             NotifyStateChanged();

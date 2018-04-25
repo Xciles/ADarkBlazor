@@ -22,4 +22,12 @@
     <BlazorGenerate Remove="Pages\Reef.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <BlazorGenerate Remove="Pages\Woods.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BlazorGenerate Remove="Pages\Component\ButtonComponent.cshtml" />
+  </ItemGroup>
+
 </Project>

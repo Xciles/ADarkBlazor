@@ -25,6 +25,7 @@ namespace ADarkBlazor
                 configure.AddScoped<IVisibilityService, VisibilityService>();
 
                 configure.AddScoped<IStory, StoryButton>();
+                configure.AddScoped<IGatherWood, GatherWoodButton>();
 
                 configure.AddScoped<IWood, Wood>();
 

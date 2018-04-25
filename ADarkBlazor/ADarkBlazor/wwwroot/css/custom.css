@@ -42,21 +42,22 @@ div.redBorder {
 }
 
 div.button div.cooldown {
-    position: absolute;
-    top: 0px;
-    left: 0px;
     z-index: -1;
     height: 100%;
     background-color: #E2DCDC;
     overflow: hidden;
 }
 
+div.button div.cooldownResizeContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -2;
+    height: 100%;
+}
+
 .waitAnimation {
-    width: 200px;
     height: 100px;
-    background: red;
-    -webkit-animation: animationWidth 4s linear; /* Safari 4.0 - 8.0 */
-    animation: animationWidth 4s linear;
     padding: 0px 0px 10px 0px;
 }
 
@@ -87,4 +88,8 @@ div.button div.cooldown {
 
 td.rightAlign {
     text-align: right;
+}
+
+.notClickable {
+    pointer-events: none;
 }

@@ -10,6 +10,9 @@ namespace ADarkBlazor.Services.Buttons
         bool IsClickable { get; set; }
         EButtonType ButtonType { get; set; }
         string Title { get; set; }
+        int Cooldown { get; set; }
+        int RemainingCooldown { get; set; }
+        int CalculatedStartFrom { get; }
 
         void Invoke();
     }
