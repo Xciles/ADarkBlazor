@@ -2,7 +2,7 @@
 {
     public enum EStoryProgression
     {
-        LookArround,
+        LookAround,
         FindWood, 
         FireInitial, 
         FireLit, 

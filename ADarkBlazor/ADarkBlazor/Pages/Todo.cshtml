@@ -1,6 +1,7 @@
 ﻿@using ADarkBlazor.Domain;
 @page "/todo"
 
+<div class="col">
     <h1>Todo</h1>
 
     <ul>
@@ -15,6 +16,7 @@
 
     <input placeholder="Something todo" bind="@newTodo" />
     <button onclick="@AddTodo">Add todo</button>
+</div>
 
 @functions {
     IList<TodoItem> todos = new List<TodoItem>();

@@ -70,9 +70,9 @@ namespace ADarkBlazor.Services
             // Replace with something else at a later stage...
             switch (_progression)
             {
-                case EStoryProgression.LookArround:
+                case EStoryProgression.LookAround:
                     {
-                        AddOutput(@"you look arround");
+                        AddOutput(@"you look around");
                         break;
                     }
                 case EStoryProgression.FindWood:

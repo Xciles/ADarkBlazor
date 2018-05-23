@@ -7,9 +7,9 @@
 @inject IGatherWood gatherWood
 @page "/woods"
 
-<h1>The Infested Forest</h1>
 
-<div class="col-md-3">
+<div class="col-4">
+    <h1>The Infested Forest</h1>
     <ul>
         @foreach (var storyOutput in storyService.StoryOutputs)
         {
@@ -20,11 +20,11 @@
     </ul>
 </div>
 
-<div class="col-md-4">
+<div class="col-4">
     <ButtonComponent ButtonBase=gatherWood></ButtonComponent>
 </div>
 
-<div class="col-md-2">
+<div class="col-2">
     @if (resourceService.Resources.Any(x => x.IsVisible))
     {
         <div data-legend="Resources" class="resources">
