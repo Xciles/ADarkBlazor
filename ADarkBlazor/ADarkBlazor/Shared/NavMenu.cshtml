@@ -1,70 +1,8 @@
 ﻿@using ADarkBlazor.Services.Interfaces
 @inject IVisibilityService visibility
 
-@*<div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' href='/'>ADarkBlazor</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse'>
-            <ul class='nav navbar-nav'>
-                <li>
-                    <NavLink href="/" Match=NavLinkMatch.All>
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink href="/counter">
-                        <span class='glyphicon glyphicon-education'></span> Counter
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink href="/fetchdata">
-                        <span class='glyphicon glyphicon-th-list'></span> Fetch data
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink href="/todo">
-                        <span class='glyphicon glyphicon-th-list'></span> Todo
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink href="/fields">
-                        <span class='glyphicon glyphicon-fire'></span> Fields
-                    </NavLink>
-                </li>
-                <li>
-                </li>
-
-                @foreach (var menuItem in visibility.Menu)
-                {
-                    <li>
-                        <NavLink href="@menuItem.HRef">
-                            <span class='glyphicon @menuItem.Icon'></span> @menuItem.Description
-                        </NavLink>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-</div>*@
-
-@*@functions {
-    protected override void OnInit()
-    {
-        visibility.OnChange += StateHasChanged;
-    }
-}*@
-
 <div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="/">WebApplication1</a>
+    <a class="navbar-brand" href="/">A Dark Blazor</a>
     <button class="navbar-toggler" onclick=@ToggleNavMenu>
         <span class="navbar-toggler-icon"></span>
     </button>
