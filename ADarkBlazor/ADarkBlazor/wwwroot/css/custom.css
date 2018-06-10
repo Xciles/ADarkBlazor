@@ -37,8 +37,18 @@ div.button {
     user-select: none;
 }
 
+div.smallButton {
+    width: 20px;
+    padding: 0px;
+    margin: 5px;
+}
+
 div.redBorder {
     border: 1px solid #630b0b;
+}
+
+div.hidden {
+    display: none;
 }
 
 div.button div.cooldown {
@@ -54,6 +64,14 @@ div.button div.cooldownResizeContainer {
     left: 0px;
     z-index: -2;
     height: 100%;
+}
+
+div.floatLeft {
+    float: left;
+}
+
+div.workerButtons {
+    width: 60px;
 }
 
 .waitAnimation {
@@ -72,6 +90,11 @@ div.button div.cooldownResizeContainer {
 }
 
 .resources {
+    border: 1px solid black;
+    padding: 5px 10px;
+}
+
+.workers {
     border: 1px solid black;
     padding: 5px 10px;
 }

@@ -2,6 +2,7 @@
 {
     public enum EResourceType
     {
-        Wood = 0
+        Wood = 0,
+        Food = 1
     }
 }

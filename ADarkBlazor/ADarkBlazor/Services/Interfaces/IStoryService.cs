@@ -10,5 +10,6 @@ namespace ADarkBlazor.Services.Interfaces
         event Action OnChange;
         IList<OutputInfo> StoryOutputs { get; set; }
         void Invoke(EStoryEventType storyEventType = EStoryEventType.None);
+        void Invoke(string message);
     }
 }

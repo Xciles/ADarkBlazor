@@ -4,6 +4,7 @@ using System.Threading;
 using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
+using ADarkBlazor.Services.Workers;
 
 namespace ADarkBlazor.Services
 {
@@ -15,15 +16,17 @@ namespace ADarkBlazor.Services
         private readonly ApplicationState _state;
         private readonly IResourceService _resourceService;
         private readonly IVisibilityService _visibilityService;
+        private readonly IWorkerService _workerService;
         public IList<OutputInfo> StoryOutputs { get; set; } = new List<OutputInfo>();
         private EStoryProgression _progression = 0;
 
 
-        public StoryService(ApplicationState state, IResourceService resourceService, IVisibilityService visibilityService)
+        public StoryService(ApplicationState state, IResourceService resourceService, IVisibilityService visibilityService, IWorkerService workerService)
         {
             _state = state;
             _resourceService = resourceService;
             _visibilityService = visibilityService;
+            _workerService = workerService;
 
             AddOutput("the field is icy cold");
             AddOutput("there is no fire...");
@@ -64,6 +67,14 @@ namespace ADarkBlazor.Services
             }
         }
 
+        public void Invoke(string message)
+        {
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                AddOutput(message);
+            }
+        }
+
         private void HandleStory()
         {
             // Big bad switch
@@ -97,12 +108,13 @@ namespace ADarkBlazor.Services
                 case EStoryProgression.FireCold:
                     {
                         AddOutput(@"the fire keeps burning");
-                        Timer time = new Timer((_) =>
+                        Timer timer = new Timer((_) =>
                         {
                             AddOutput(@"a strange shivering creature joins you next to the fire");
                             AddOutput(@"you look past the creature and see a forest...");
                             _visibilityService.Unlock(EMenuType.Woods);
-                        }, null, 6_000, -1);
+                            _resourceService.EnableResource(EResourceType.Food);
+                        }, null, 7_500, -1);
                         break;
                     }
                 case EStoryProgression.FireWarm:
@@ -118,7 +130,15 @@ namespace ADarkBlazor.Services
                 case EStoryProgression.FireHot:
                     {
                         AddOutput(@"the area is hot");
-                        Timer timer = new Timer((_) => AddOutput(@"the strange creature shifts into a humanoid form"), null, 6_000, -1);
+                        Timer timer = new Timer((_) =>
+                        {
+                            AddOutput(@"the strange creature shifts into a humanoid form");
+                            AddOutput(@"the strange creature says it can build stuff");
+                            _workerService.EnableWorker(typeof(Builder));
+                            _workerService.AddPersonToWorker(typeof(IdleWorker));
+                            _workerService.AddPersonToWorker(typeof(Builder));
+                            //_workerService.
+                        }, null, 7_500, -1);
                         break;
                     }
                 case EStoryProgression.Initial:

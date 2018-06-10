@@ -1,27 +1,42 @@
 ﻿@using ADarkBlazor.Services
 @using ADarkBlazor.Services.Interfaces
 @using ADarkBlazor.Services.Buttons
+@using ADarkBlazor.Services.Workers
 @inject ApplicationState state
 @inject IResourceService resourceService
-@inject IStoryService storyService
-@inject IGatherWood gatherWood
-@page "/woods"
+@page "/Builder"
 
 
 <div class="col-4">
-    <h1>The Infested Forest</h1>
-    <ul>
-        @foreach (var storyOutput in storyService.StoryOutputs)
-        {
-            <li>
-                <label>@storyOutput.Info</label>
-            </li>
-        }
-    </ul>
+    <h1>The Unique Building</h1>
+
 </div>
 
 <div class="col-6">
-    <ButtonComponent ButtonBase=gatherWood></ButtonComponent>
+    <div data-legend="Workers" class="workers">
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th width="60%"></th>
+                    <th width="40%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var resource in workerService.Workers)
+                {
+                    @if (!resource.IsVisible)
+                    {
+                        //continue;
+                    }
+                    <tr>
+                        <td>@resource.Name</td>
+                        <td class="rightAlign">@resource.NumberOfWorkers</td>
+                        <ButtonWorkerComponent Worker=resource></ButtonWorkerComponent>
+                    </tr>
+                }*@
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="col-2">
@@ -58,8 +73,6 @@
     protected override void OnInit()
     {
         state.OnChange += StateHasChanged;
-        gatherWood.OnChange += StateHasChanged;
-        storyService.OnChange += StateHasChanged;
     }
 }
 

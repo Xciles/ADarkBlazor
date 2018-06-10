@@ -47,6 +47,7 @@ namespace ADarkBlazor.Services
                 }
 
                 _provider.GetService<IResourceService>().RegisterReources(_provider);
+                _provider.GetService<IWorkerService>().RegisterWorkers(_provider);
             }
         }
 

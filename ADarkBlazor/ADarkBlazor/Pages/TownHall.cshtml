@@ -3,17 +3,18 @@
 @using ADarkBlazor.Services.Buttons
 @using ADarkBlazor.Services.Workers
 @inject ApplicationState state
+@inject IWorkerService workerService
 @inject IResourceService resourceService
 @inject IStoryService storyService
-@inject IStory story
-@inject IBuildHouse buildHouse
-@inject IBuildTownHall buildTownHall
-@inject IBuilder builderWorker
-@page "/fields"
+@inject IGatherWood gatherWood
+@inject IIdleWorker idleWorker
+@inject IWoodGatherer woodGatherer
+@inject IFisherman fisherman
+@page "/townhall"
 
 
 <div class="col-4">
-    <h1>The Forgotten Fields | @state.Test()</h1>
+    <h1>The Town Hall</h1>
     <ul>
         @foreach (var storyOutput in storyService.StoryOutputs)
         {
@@ -25,29 +26,30 @@
 </div>
 
 <div class="col-6">
-    <div class="row">
-        <ButtonComponent ButtonBase=story></ButtonComponent>
+    <div data-legend="Workers" class="workers">
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th width="60%"></th>
+                    <th width="40%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var resource in workerService.Workers)
+                {
+                    @if (!resource.IsVisible)
+                    {
+                        //continue;
+                    }
+                    <tr>
+                        <td>@resource.Name</td>
+                        <td class="rightAlign">@resource.NumberOfWorkers</td>
+                        <ButtonWorkerComponent Worker=resource></ButtonWorkerComponent>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-
-    @*<div class=@(!builder2.IsUnlocked ? "hidden" : "row")>
-        <div class="row">
-            <h2>Building</h2>
-        </div>
-        <div class="row">
-            <ButtonBuildingComponent ButtonBase=buildHouse></ButtonBuildingComponent>
-            <ButtonBuildingComponent ButtonBase=buildTownHall></ButtonBuildingComponent>
-        </div>
-    </div>*@
-    @if (builderWorker.IsVisible)
-    {
-        <div class="row">
-            <h2>Building</h2>
-        </div>
-        <div class="row">
-            <ButtonBuildingComponent ButtonBase=buildHouse></ButtonBuildingComponent>
-            <ButtonBuildingComponent ButtonBase=buildTownHall></ButtonBuildingComponent>
-        </div>
-    }
 </div>
 
 <div class="col-2">
@@ -73,27 +75,28 @@
                             <td class="rightAlign">@resource.Amount</td>
                         </tr>
                     }
-                    @*<tr>
-                            <td>Wood</td>
-                            <td class="rightAlign">1000</td>
-                        </tr>
-                        <tr>
-                            <td>Stuff</td>
-                            <td class="rightAlign">10</td>
-                        </tr>*@
                 </tbody>
             </table>
         </div>
     }
 </div>
 
+
 @functions {
+
+    void Test()
+    {
+
+    }
+
     protected override void OnInit()
     {
-        state.RegisterButtons();
         state.OnChange += StateHasChanged;
-        //story.OnChange += StateHasChanged;
+        gatherWood.OnChange += StateHasChanged;
         storyService.OnChange += StateHasChanged;
-        builderWorker.OnChange += StateHasChanged;
+        idleWorker.OnChange += StateHasChanged;
+        woodGatherer.OnChange += StateHasChanged;
+        fisherman.OnChange += StateHasChanged;
     }
 }
+

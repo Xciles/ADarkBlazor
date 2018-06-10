@@ -16,6 +16,7 @@ namespace ADarkBlazor.Services
         private IList<MenuItem> _availableMenuItems = new List<MenuItem>
         {
             new MenuItem { Type = EMenuType.Reef, Description = "The Vile Reef", HRef = "/reef", Icon = "oi-droplet" },
+            new MenuItem { Type = EMenuType.TownHall, Description = "The Town Hall", HRef = "/townhall", Icon = "oi-aperture" },
             new MenuItem { Type = EMenuType.Woods, Description = "The Infested Forest", HRef = "/woods", Icon = "oi-bug" }
         };
 

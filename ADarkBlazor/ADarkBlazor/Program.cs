@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Blazor.Browser.Services;
 using System;
 using System.Linq;
 using ADarkBlazor.Services;
+using ADarkBlazor.Services.Buildings;
 using ADarkBlazor.Services.Buttons;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Resources;
+using ADarkBlazor.Services.Workers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor
@@ -20,6 +22,7 @@ namespace ADarkBlazor
 
                 configure.AddScoped<ApplicationState>();
                 configure.AddScoped<IResourceService, ResourceService>();
+                configure.AddScoped<IWorkerService, WorkerService>();
                 configure.AddScoped<IStoryService, StoryService>();
                 configure.AddScoped<IUserInputService, UserInputService>();
                 configure.AddScoped<IVisibilityService, VisibilityService>();
@@ -28,6 +31,18 @@ namespace ADarkBlazor
                 configure.AddScoped<IGatherWood, GatherWoodButton>();
 
                 configure.AddScoped<IWood, Wood>();
+                configure.AddScoped<IFood, Food>();
+
+                configure.AddScoped<IIdleWorker, IdleWorker>();
+                configure.AddScoped<IWoodGatherer, WoodGatherer>();
+                configure.AddScoped<IFisherman, Fisherman>();
+                configure.AddScoped<IBuilder, Builder>();
+
+                configure.AddScoped<IBuildHouse, BuildHouse>();
+                configure.AddScoped<IBuildTownHall, BuildTownHall>();
+
+                configure.AddScoped<ITownHall, TownHall>();
+                configure.AddScoped<IHouse, House>();
 
                 //var type = typeof(IButtonBase);
                 //var types = AppDomain.CurrentDomain.GetAssemblies()

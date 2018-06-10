@@ -3,6 +3,7 @@
     public enum EMenuType
     {
         Reef = 0,
-        Woods
+        Woods,
+        TownHall
     }
 }
