@@ -19,7 +19,7 @@ namespace ADarkBlazor.Services
             _state = state;
         }
 
-        public void RegisterReources(IServiceProvider provider)
+        public void RegisterResources(IServiceProvider provider)
         {
             var type = typeof(IResource);
             var types = AppDomain.CurrentDomain.GetAssemblies()

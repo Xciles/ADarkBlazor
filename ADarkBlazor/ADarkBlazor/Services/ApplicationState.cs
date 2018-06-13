@@ -46,7 +46,7 @@ namespace ADarkBlazor.Services
                     _buttons.Add((IButtonBase)_provider.GetService(type1));
                 }
 
-                _provider.GetService<IResourceService>().RegisterReources(_provider);
+                _provider.GetService<IResourceService>().RegisterResources(_provider);
                 _provider.GetService<IWorkerService>().RegisterWorkers(_provider);
             }
         }

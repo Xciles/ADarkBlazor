@@ -1,0 +1,26 @@
+﻿@using ADarkBlazor.Services.Workers
+@using ADarkBlazor.Services.Buttons
+
+@inject IBuildHouse buildHouse
+@inject IBuildTownHall buildTownHall
+@inject IBuilder builderWorker
+
+@if (builderWorker.IsVisible)
+{
+    <div class="row">
+        <h2>Building</h2>
+    </div>
+    <div class="row">
+        <ButtonBuildingComponent ButtonBase=buildHouse></ButtonBuildingComponent>
+        <ButtonBuildingComponent ButtonBase=buildTownHall></ButtonBuildingComponent>
+    </div>
+}
+
+@functions
+{
+
+protected override void OnInit()
+{
+    builderWorker.OnChange += StateHasChanged;
+}
+}
