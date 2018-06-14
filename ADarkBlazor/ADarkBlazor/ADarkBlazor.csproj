@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Component\DebugHyperComponent.cshtml" />
     <None Include="Pages\Component\StoryComponent.cshtml" />
   </ItemGroup>
 
@@ -48,6 +49,10 @@
 
   <ItemGroup>
     <BlazorGenerate Remove="Pages\Component\BuilderWorkerComponent.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BlazorGenerate Remove="Pages\Component\DebugHyperComponent.cshtml" />
   </ItemGroup>
 
 </Project>
