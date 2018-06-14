@@ -1,0 +1,38 @@
+﻿@using ADarkBlazor.Services.Interfaces
+@inject IResourceService resourceService
+
+@if (resourceService.Resources.Any(x => x.IsVisible))
+{
+    <div data-legend="Resources" class="resources">
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th width="60%"></th>
+                    <th width="40%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var resource in resourceService.Resources)
+                {
+                    @if (!resource.IsVisible)
+                    {
+                        continue;
+                    }
+                    <tr>
+                        <td>@resource.Name</td>
+                        <td class="rightAlign">@resource.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@functions
+{
+
+protected override void OnInit()
+{
+    resourceService.OnChange += StateHasChanged;
+}
+}

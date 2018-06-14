@@ -35,9 +35,9 @@ namespace ADarkBlazor.Services.Buttons
             {
                 IsClickable = false;
                 RemainingCooldown = Cooldown;
-
+                
                 InvokeImplementation();
-
+                
                 NotifyStateChanged();
 
                 _timer?.Dispose();

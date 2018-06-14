@@ -9,10 +9,10 @@ namespace ADarkBlazor.Services.Interfaces
     {
         event Action OnChange;
         IList<IResource> Resources { get; set; }
-        void RegisterReources(IServiceProvider provider);
-
+        void RegisterResources(IServiceProvider provider);
         void EnableResource(EResourceType type);
         void AddToResource(EResourceType type, double amount);
         void SubtractFromResource(EResourceType type, double amount);
+        void NotifyStateChanged();
     }
 }
