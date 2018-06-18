@@ -9,6 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor.Services
 {
+    public class HyperState
+    {
+        public bool Enabled { get; set; }
+        public int DivideBy { get; set; } = 5;
+    }
+
     public class ApplicationState
     {
         private bool _isInitialized = false;

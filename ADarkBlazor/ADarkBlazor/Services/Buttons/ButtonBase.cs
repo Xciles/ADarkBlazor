@@ -14,17 +14,17 @@ namespace ADarkBlazor.Services.Buttons
         protected void NotifyStateChanged()
         {
             OnChange?.Invoke();
-            _state.NotifyStateChanged();
+            State.NotifyStateChanged();
         }
 
-        protected readonly ApplicationState _state;
+        protected ApplicationState State { get; }
         public bool IsVisible { get; set; }
         public bool IsClickable { get; set; }
         public virtual EButtonType ButtonType { get; set; }
         public string Title { get; set; }
         public int Cooldown
         {
-            get { return ((_state.Hyper) ? (_cooldown/5) : _cooldown); }
+            get { return ((State.Hyper) ? (_cooldown/5) : _cooldown); }
             set { if (!(_cooldown.Equals(value))) _cooldown = value; }
         }
         public int RemainingCooldown { get; set; }
@@ -32,7 +32,6 @@ namespace ADarkBlazor.Services.Buttons
 
         public void Invoke()
         {
-            
             if (IsClickable)
             {
                 IsClickable = false;
@@ -66,7 +65,7 @@ namespace ADarkBlazor.Services.Buttons
 
         protected ButtonBase(ApplicationState state)
         {
-            _state = state;
+            State = state;
         }
     }
 }

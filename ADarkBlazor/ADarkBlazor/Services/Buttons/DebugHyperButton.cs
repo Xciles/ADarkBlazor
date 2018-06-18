@@ -13,8 +13,8 @@
 
         public override void InvokeImplementation()
         {
-            _state.Hyper = !_state.Hyper;
-            Title = (_state.Hyper) ? "unhyper" : "hyper";
+            State.Hyper = !State.Hyper;
+            Title = (State.Hyper) ? "unhyper" : "hyper";
         }
 
         public override void TimerFinished()
