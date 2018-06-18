@@ -25,7 +25,7 @@ namespace ADarkBlazor.Services.Buttons
         public override void InvokeImplementation()
         {
             _storyService.Invoke(EStoryEventType.GatherWood);
-            _wood.Add(10);
+            _wood.Add(20);
         }
 
         public override void TimerFinished()
