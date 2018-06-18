@@ -30,6 +30,7 @@ namespace ADarkBlazor.Services.Resources
             if (Amount <= 0) throw new ResourceException();
 
             Amount -= amount;
+            _resourceService.NotifyStateChanged();
             NotifyStateChanged();
         }
 

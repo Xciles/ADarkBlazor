@@ -13,4 +13,9 @@
 {
     [Parameter]
     IButtonBase ButtonBase { get; set; }
+
+    protected override void OnInit()
+    {
+        ButtonBase.OnChange += StateHasChanged;
+    }
 }

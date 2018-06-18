@@ -14,9 +14,9 @@ namespace ADarkBlazor.Services
         private bool _isInitialized = false;
         private readonly IServiceProvider _provider;
         public event Action OnChange;
+        public bool Hyper { get; set; }
         public void NotifyStateChanged() => OnChange?.Invoke();
         private Timer _saveStateTimer;
-
         private IList<IButtonBase> _buttons = new List<IButtonBase>();
 
         public ApplicationState(IServiceProvider provider)
@@ -46,7 +46,7 @@ namespace ADarkBlazor.Services
                     _buttons.Add((IButtonBase)_provider.GetService(type1));
                 }
 
-                _provider.GetService<IResourceService>().RegisterReources(_provider);
+                _provider.GetService<IResourceService>().RegisterResources(_provider);
                 _provider.GetService<IWorkerService>().RegisterWorkers(_provider);
             }
         }

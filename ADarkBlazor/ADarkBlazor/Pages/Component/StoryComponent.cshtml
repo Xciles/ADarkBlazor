@@ -1,0 +1,21 @@
+﻿@using ADarkBlazor.Services.Interfaces
+
+@inject IStoryService storyService
+
+<ul>
+    @foreach (var storyOutput in storyService.StoryOutputs)
+    {
+        <li>
+            <label>@storyOutput.Info</label>
+        </li>
+    }
+</ul>
+
+@functions
+{
+
+protected override void OnInit()
+{
+    storyService.OnChange += StateHasChanged;
+}
+}

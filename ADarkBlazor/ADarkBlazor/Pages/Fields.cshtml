@@ -1,99 +1,35 @@
 ﻿@using ADarkBlazor.Services
-@using ADarkBlazor.Services.Interfaces
 @using ADarkBlazor.Services.Buttons
-@using ADarkBlazor.Services.Workers
+@using ADarkBlazor.Services.Interfaces
+
 @inject ApplicationState state
-@inject IResourceService resourceService
-@inject IStoryService storyService
 @inject IStory story
-@inject IBuildHouse buildHouse
-@inject IBuildTownHall buildTownHall
-@inject IBuilder builderWorker
+@inject IDebugHyper debugHyper
 @page "/fields"
 
 
 <div class="col-4">
-    <h1>The Forgotten Fields | @state.Test()</h1>
-    <ul>
-        @foreach (var storyOutput in storyService.StoryOutputs)
-        {
-            <li>
-                <label>@storyOutput.Info</label>
-            </li>
-        }
-    </ul>
+    <h1>The Forgotten Fields</h1>
+    <StoryComponent></StoryComponent>
 </div>
 
 <div class="col-6">
     <div class="row">
         <ButtonComponent ButtonBase=story></ButtonComponent>
     </div>
-
-    @*<div class=@(!builder2.IsUnlocked ? "hidden" : "row")>
-        <div class="row">
-            <h2>Building</h2>
-        </div>
-        <div class="row">
-            <ButtonBuildingComponent ButtonBase=buildHouse></ButtonBuildingComponent>
-            <ButtonBuildingComponent ButtonBase=buildTownHall></ButtonBuildingComponent>
-        </div>
-    </div>*@
-    @if (builderWorker.IsVisible)
-    {
-        <div class="row">
-            <h2>Building</h2>
-        </div>
-        <div class="row">
-            <ButtonBuildingComponent ButtonBase=buildHouse></ButtonBuildingComponent>
-            <ButtonBuildingComponent ButtonBase=buildTownHall></ButtonBuildingComponent>
-        </div>
-    }
+    <BuilderWorkerComponent></BuilderWorkerComponent>
 </div>
 
 <div class="col-2">
-    @if (resourceService.Resources.Any(x => x.IsVisible))
-    {
-        <div data-legend="Resources" class="resources">
-            <table style="width: 100%">
-                <thead>
-                    <tr>
-                        <th width="60%"></th>
-                        <th width="40%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var resource in resourceService.Resources)
-                    {
-                        @if (!resource.IsVisible)
-                        {
-                            continue;
-                        }
-                        <tr>
-                            <td>@resource.Name</td>
-                            <td class="rightAlign">@resource.Amount</td>
-                        </tr>
-                    }
-                    @*<tr>
-                            <td>Wood</td>
-                            <td class="rightAlign">1000</td>
-                        </tr>
-                        <tr>
-                            <td>Stuff</td>
-                            <td class="rightAlign">10</td>
-                        </tr>*@
-                </tbody>
-            </table>
-        </div>
-    }
+    <ResourceComponent></ResourceComponent>
+</div>
+<div class="floatingButton">
+    <DebugHyperComponent ButtonBase=debugHyper></DebugHyperComponent>
 </div>
 
 @functions {
-    protected override void OnInit()
-    {
-        state.RegisterButtons();
-        state.OnChange += StateHasChanged;
-        //story.OnChange += StateHasChanged;
-        storyService.OnChange += StateHasChanged;
-        builderWorker.OnChange += StateHasChanged;
-    }
+protected override void OnInit()
+{
+    state.RegisterButtons();
+}
 }

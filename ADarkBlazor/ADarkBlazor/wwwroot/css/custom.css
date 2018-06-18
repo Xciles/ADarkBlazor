@@ -56,6 +56,11 @@ div.button div.cooldown {
     height: 100%;
     background-color: #E2DCDC;
     overflow: hidden;
+    width: 100%;
+}
+
+div.button div.cooldown:hover {
+    animation: noAnimation;
 }
 
 div.button div.cooldownResizeContainer {
@@ -115,4 +120,26 @@ td.rightAlign {
 
 .notClickable {
     pointer-events: none;
+}
+
+.floatingButton .hyperButton {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    width: 100px;
+    height: 100px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    text-align: center;
+    line-height: 100px;
+    padding: 0;
+}
+
+.hyperButton span {
+    position: relative;
+    text-transform: uppercase;
+    font-weight:bold;
+    color: white;
 }
