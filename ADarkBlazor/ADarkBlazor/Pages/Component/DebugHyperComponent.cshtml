@@ -1,0 +1,23 @@
+﻿@using ADarkBlazor.Services.Buttons
+
+@inject IDebugHyper debugHyper
+
+<div class=@(!debugHyper.IsClickable ? "notClickable" : "")>
+    <div class=@((!debugHyper.IsClickable ? "redBorder" : "") +"button hyperButton") onclick="@debugHyper.Invoke">
+        <span>@debugHyper.Title</span>
+        <div class="cooldownResizeContainer" style=@(!debugHyper.IsClickable ? $"width: calc((100% / {debugHyper.Cooldown}) * {debugHyper.RemainingCooldown});" : "")>
+            <div class="cooldown" style=@(!debugHyper.IsClickable ? $"animation: animationWidth {debugHyper.RemainingCooldown}ms linear;" : "")></div>
+        </div>
+    </div>
+</div>
+
+@functions
+{
+[Parameter]
+IButtonBase ButtonBase { get; set; }
+
+protected override void OnInit()
+{
+    ButtonBase.OnChange += StateHasChanged;
+}
+}
