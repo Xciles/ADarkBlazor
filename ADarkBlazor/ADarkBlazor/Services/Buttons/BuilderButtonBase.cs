@@ -12,7 +12,8 @@ namespace ADarkBlazor.Services.Buttons
         protected IBuilding Building { get; }
         public event Action OnChange;
         private Timer _timer;
-        private const int _interval = 100;
+        private const int Interval = 100;
+        private int _cooldown;
 
         protected void NotifyStateChanged()
         {
@@ -26,12 +27,11 @@ namespace ADarkBlazor.Services.Buttons
         public bool IsClickable { get; set; }
         public virtual EButtonType ButtonType { get; set; }
         public string Title { get; set; }
-        public int Cooldown { get; set; }
         public int RemainingCooldown { get; set; }
-
-        public int CalculatedStartFrom
+        public int Cooldown
         {
-            get { return 0; }
+            get => _cooldown / State.HyperState.DivideBy;
+            set { if (!(_cooldown.Equals(value))) _cooldown = value; }
         }
 
         protected BuilderButtonBase(ApplicationState state, IStoryService storyService, IBuilding building)
@@ -54,13 +54,13 @@ namespace ADarkBlazor.Services.Buttons
                 NotifyStateChanged();
 
                 _timer?.Dispose();
-                _timer = new Timer(Callback, null, 0, _interval);
+                _timer = new Timer(Callback, null, 0, Interval);
             }
         }
 
         private void Callback(object state)
         {
-            RemainingCooldown -= _interval;
+            RemainingCooldown -= Interval;
             if (RemainingCooldown <= 0)
             {
                 _timer?.Dispose();
@@ -113,7 +113,7 @@ namespace ADarkBlazor.Services.Buttons
 
     public class BuildTownHall : BuilderButtonBase, IBuildTownHall
     {
-        public BuildTownHall(ApplicationState state, IStoryService storyService, IHouse house) : base(state, storyService, house)
+        public BuildTownHall(ApplicationState state, IStoryService storyService, ITownHall townHall) : base(state, storyService, townHall)
         {
             IsVisible = true;
             IsClickable = true;

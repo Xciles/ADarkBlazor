@@ -1,9 +1,9 @@
 ﻿@using ADarkBlazor.Services.Buttons
 
-@inject IDebugHyper debugHyper
+@inject IHyper hyper
 
-<div class="button hyperButton" onclick="@debugHyper.Invoke">
-    <span>@debugHyper.Title</span>
+<div class="button hyperButton" onclick="@hyper.Invoke">
+    <span>@hyper.Title</span>
 </div>
 
 @functions

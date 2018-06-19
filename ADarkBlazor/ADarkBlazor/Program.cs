@@ -44,7 +44,8 @@ namespace ADarkBlazor
                 configure.AddScoped<ITownHall, TownHall>();
                 configure.AddScoped<IHouse, House>();
 
-                configure.AddScoped<IDebugHyper, DebugHyperButton>();
+                configure.AddScoped<IHyper, HyperButton>();
+                configure.AddScoped<IHyperState, HyperState>();
                 //var type = typeof(IButtonBase);
                 //var types = AppDomain.CurrentDomain.GetAssemblies()
                 //                        .SelectMany(s => s.GetTypes())

@@ -4,7 +4,7 @@
 
 @inject ApplicationState state
 @inject IStory story
-@inject IDebugHyper debugHyper
+@inject IHyper hyper
 @page "/fields"
 
 
@@ -24,7 +24,7 @@
     <ResourceComponent></ResourceComponent>
 </div>
 <div class="floatingButton">
-    <DebugHyperComponent ButtonBase=debugHyper></DebugHyperComponent>
+    <HyperComponent ButtonBase=hyper></HyperComponent>
 </div>
 
 @functions {

@@ -114,7 +114,7 @@ namespace ADarkBlazor.Services
                             AddOutput(@"you look past the creature and see a forest...");
                             _visibilityService.Unlock(EMenuType.Woods);
                             _resourceService.EnableResource(EResourceType.Food);
-                        }, null, 7_500, -1);
+                        }, null, 7_500 / _state.HyperState.DivideBy, -1);
                         break;
                     }
                 case EStoryProgression.FireWarm:
@@ -138,7 +138,7 @@ namespace ADarkBlazor.Services
                             _workerService.AddPersonToWorker(typeof(IdleWorker));
                             _workerService.AddPersonToWorker(typeof(Builder));
                             //_workerService.
-                        }, null, 7_500, -1);
+                        }, null, 7_500 / _state.HyperState.DivideBy, -1);
                         break;
                     }
                 case EStoryProgression.Initial:

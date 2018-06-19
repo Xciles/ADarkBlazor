@@ -8,7 +8,7 @@ namespace ADarkBlazor.Services.Buttons
     {
         public event Action OnChange;
         private Timer _timer;
-        private const int _interval = 100;
+        private const int Interval = 100;
         private int _cooldown;
 
         protected void NotifyStateChanged()
@@ -22,13 +22,12 @@ namespace ADarkBlazor.Services.Buttons
         public bool IsClickable { get; set; }
         public virtual EButtonType ButtonType { get; set; }
         public string Title { get; set; }
+        public int RemainingCooldown { get; set; }
         public int Cooldown
         {
-            get { return ((State.Hyper) ? (_cooldown/5) : _cooldown); }
+            get => _cooldown / State.HyperState.DivideBy;
             set { if (!(_cooldown.Equals(value))) _cooldown = value; }
         }
-        public int RemainingCooldown { get; set; }
-        public int CalculatedStartFrom { get => 0; }
 
         public void Invoke()
         {
@@ -36,19 +35,18 @@ namespace ADarkBlazor.Services.Buttons
             {
                 IsClickable = false;
                 RemainingCooldown = Cooldown;
-                Console.WriteLine($"Cooldown: {Cooldown}");
                 InvokeImplementation();
 
                 NotifyStateChanged();
 
                 _timer?.Dispose();
-                _timer = new Timer(Callback, null, 0, _interval);
+                _timer = new Timer(Callback, null, 0, Interval);
             }
         }
 
         private void Callback(object state)
         {
-            RemainingCooldown -= _interval;
+            RemainingCooldown -= Interval;
             if (RemainingCooldown <= 0)
             {
                 _timer?.Dispose();

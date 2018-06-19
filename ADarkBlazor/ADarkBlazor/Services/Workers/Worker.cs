@@ -68,14 +68,25 @@ namespace ADarkBlazor.Services.Workers
 
     public abstract class Crafter : Worker
     {
+        private readonly IHyperState _hyperState;
         protected double Upkeep { get; set; } = 1;
         protected IFood Food { get; }
-        private readonly Timer _timer;
+        private Timer _timer;
 
-        protected Crafter(IFood food)
+        protected Crafter(IFood food, IHyperState hyperState)
         {
+            _hyperState = hyperState;
+            _hyperState.OnChange += HyperStateOnOnChange;
             Food = food;
-            _timer = new Timer(Callback, null, 10_000, 10_000);
+
+            _timer = new Timer(Callback, null, 10_000 / _hyperState.DivideBy, 10_000 / _hyperState.DivideBy);
+        }
+
+        private void HyperStateOnOnChange()
+        {
+            _timer.Dispose();
+            _timer = null;
+            _timer = new Timer(Callback, null, 10_000 / _hyperState.DivideBy, 10_000 / _hyperState.DivideBy);
         }
 
         private void Callback(object state)
@@ -87,28 +98,39 @@ namespace ADarkBlazor.Services.Workers
 
     public class Builder : Crafter, IBuilder
     {
-        public Builder(IFood food) : base(food)
+        public Builder(IFood food, IHyperState hyperState) : base(food, hyperState)
         {
         }
     }
 
     public abstract class Gatherer : Worker
     {
+        private readonly IHyperState _hyperState;
         protected IList<IResource> Resources { get; private set; } = new List<IResource>();
 
         // amount per 10 seconds
         // levels
         public double AmountPer10Seconds { get; set; } = 1;
-        private readonly Timer _timer;
+        private Timer _timer;
 
-        protected Gatherer(params IResource[] resources)
+        protected Gatherer(IHyperState hyperState, params IResource[] resources)
         {
+            _hyperState = hyperState;
+            _hyperState.OnChange += HyperStateOnOnChange;
+
             foreach (var resource in resources)
             {
                 Resources.Add(resource);
             }
 
-            _timer = new Timer(Callback, null, 10_000, 10_000);
+            _timer = new Timer(Callback, null, 10_000 / hyperState.DivideBy, 10_000 / hyperState.DivideBy);
+        }
+
+        private void HyperStateOnOnChange()
+        {
+            _timer.Dispose();
+            _timer = null;
+            _timer = new Timer(Callback, null, 10_000 / _hyperState.DivideBy, 10_000 / _hyperState.DivideBy);
         }
 
         private void Callback(object state)
@@ -126,7 +148,7 @@ namespace ADarkBlazor.Services.Workers
 
     public class WoodGatherer : Gatherer, IWoodGatherer
     {
-        public WoodGatherer(IWood wood) : base(wood)
+        public WoodGatherer(IWood wood, IHyperState hyperState) : base(hyperState, wood)
         {
             Name = "Wood Gatherer";
         }
@@ -138,7 +160,7 @@ namespace ADarkBlazor.Services.Workers
 
     public class Fisherman : Gatherer, IFisherman
     {
-        public Fisherman(IFood food) : base(food)
+        public Fisherman(IFood food, IHyperState hyperState) : base(hyperState, food)
         {
             Name = "Fisherman";
             AmountPer10Seconds = 10;

@@ -9,10 +9,32 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor.Services
 {
-    public class HyperState
+    public interface IHyperState
     {
-        public bool Enabled { get; set; }
-        public int DivideBy { get; set; } = 5;
+        event Action OnChange;
+        bool Enabled { get; set; }
+        int DivideBy { get; set; }
+    }
+
+    public class HyperState : IHyperState
+    {
+        private int _divideBy = 5;
+        private bool _enabled;
+
+        public bool Enabled
+        {
+            get => _enabled;
+            set { _enabled = value; NotifyStateChanged(); }
+        }
+
+        public int DivideBy
+        {
+            get => Enabled ? _divideBy : 1;
+            set { _divideBy = value; NotifyStateChanged(); }
+        }
+
+        public event Action OnChange;
+        private void NotifyStateChanged() => OnChange?.Invoke();
     }
 
     public class ApplicationState
@@ -20,14 +42,15 @@ namespace ADarkBlazor.Services
         private bool _isInitialized = false;
         private readonly IServiceProvider _provider;
         public event Action OnChange;
-        public bool Hyper { get; set; }
+        public IHyperState HyperState { get; set; }
         public void NotifyStateChanged() => OnChange?.Invoke();
         private Timer _saveStateTimer;
         private IList<IButtonBase> _buttons = new List<IButtonBase>();
 
-        public ApplicationState(IServiceProvider provider)
+        public ApplicationState(IServiceProvider provider, IHyperState hyperState)
         {
             _provider = provider;
+            HyperState = hyperState;
             _saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
             ReadState();
         }

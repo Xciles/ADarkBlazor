@@ -32,8 +32,14 @@ namespace ADarkBlazor.Services.Buildings
         public string Name { get; set; } = "Worker";
         public int NumberOfBuildings { get; set; } = 0;
         public bool IsUnlocked => NumberOfBuildings > 0;
-        public virtual int BuildTime { get; } = 0;
+        public virtual int BuildTime { get; } = 0; // todo expose raw time
         protected Timer BuildTimer { get; set; }
+        protected IHyperState HyperState { get; }
+
+        protected Building(IHyperState hyperState)
+        {
+            HyperState = hyperState;
+        }
 
         public void Enable()
         {
@@ -79,25 +85,34 @@ namespace ADarkBlazor.Services.Buildings
         private const int _woodRequired = 45;
         private const int _rawBuildTime = 30_000;
         private const int _numberOfInhabitantsPerHouse = 5;
-        private readonly Timer _timer;
+        private Timer _timer;
 
         public override int BuildTime
         {
             get
             {
-                if (_builder.NumberOfWorkers == 0) return _rawBuildTime;
-                return _rawBuildTime / _builder.NumberOfWorkers;
+                if (_builder.NumberOfWorkers == 0) return _rawBuildTime / HyperState.DivideBy;
+                return (_rawBuildTime / _builder.NumberOfWorkers) / HyperState.DivideBy;
             }
         }
 
-        public House(IWood wood, IBuilder builder, ITownHall townHall, IWorkerService workerService, IStoryService storyService)
+        public House(IWood wood, IBuilder builder, ITownHall townHall, IWorkerService workerService, IStoryService storyService, IHyperState hyperState) : base(hyperState)
         {
             _wood = wood;
             _builder = builder;
             _townHall = townHall;
             _workerService = workerService;
             _storyService = storyService;
-            _timer = new Timer(InhabitantsCallback, null, 30_000, 30_000);
+
+            HyperState.OnChange += HyperStateOnOnChange;
+            _timer = new Timer(InhabitantsCallback, null, 30_000 / HyperState.DivideBy, 30_000 / HyperState.DivideBy);
+        }
+
+        private void HyperStateOnOnChange()
+        {
+            _timer.Dispose();
+            _timer = null;
+            _timer = new Timer(InhabitantsCallback, null, 30_000 / HyperState.DivideBy, 30_000 / HyperState.DivideBy);
         }
 
         private void InhabitantsCallback(object state)
@@ -151,11 +166,6 @@ namespace ADarkBlazor.Services.Buildings
             NotifyStateChanged();
         }
 
-        private void Callback(object state)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Demolish()
         {
             throw new NotImplementedException();
@@ -172,6 +182,7 @@ namespace ADarkBlazor.Services.Buildings
         private readonly IWood _wood;
         private readonly IBuilder _builder;
         private readonly IVisibilityService _visibilityService;
+        private readonly IStoryService _storyService;
         private const int _woodRequired = 105;
         private const int _rawBuildTime = 50_000;
 
@@ -179,16 +190,17 @@ namespace ADarkBlazor.Services.Buildings
         {
             get
             {
-                if (_builder.NumberOfWorkers == 0) return _rawBuildTime;
-                return _rawBuildTime / _builder.NumberOfWorkers;
+                if (_builder.NumberOfWorkers == 0) return _rawBuildTime / HyperState.DivideBy;
+                return (_rawBuildTime / _builder.NumberOfWorkers) / HyperState.DivideBy;
             }
         }
 
-        public TownHall(IWood wood, IBuilder builder, IVisibilityService visibilityService)
+        public TownHall(IWood wood, IBuilder builder, IVisibilityService visibilityService, IStoryService storyService, IHyperState hyperState) : base(hyperState)
         {
             _wood = wood;
             _builder = builder;
             _visibilityService = visibilityService;
+            _storyService = storyService;
         }
 
         public override void Build()
@@ -204,6 +216,7 @@ namespace ADarkBlazor.Services.Buildings
             }
 
             _wood.Subtract(_woodRequired);
+            _storyService.Invoke($"Building the Town Hall...");
             BuildTimer = new Timer(BuildingFinished, null, BuildTime - 10, -1);
         }
 
@@ -212,6 +225,8 @@ namespace ADarkBlazor.Services.Buildings
             NumberOfBuildings++;
 
             _visibilityService.Unlock(EMenuType.TownHall);
+
+            _storyService.Invoke($"The Town Hall was build!");
 
             NotifyStateChanged();
         }

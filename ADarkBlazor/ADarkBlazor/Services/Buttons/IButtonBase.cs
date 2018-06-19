@@ -12,7 +12,6 @@ namespace ADarkBlazor.Services.Buttons
         string Title { get; set; }
         int Cooldown { get; set; }
         int RemainingCooldown { get; set; }
-        int CalculatedStartFrom { get; }
 
         void Invoke();
     }
@@ -26,7 +25,6 @@ namespace ADarkBlazor.Services.Buttons
         string Title { get; set; }
         int Cooldown { get; }
         int RemainingCooldown { get; set; }
-        int CalculatedStartFrom { get; }
 
         void Invoke();
     }
