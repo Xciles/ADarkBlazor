@@ -8,6 +8,7 @@ using ADarkBlazor.Services.Buttons;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Resources;
 using ADarkBlazor.Services.Workers;
+using Blazor.Extensions.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor
@@ -46,6 +47,8 @@ namespace ADarkBlazor
 
                 configure.AddScoped<IHyper, HyperButton>();
                 configure.AddScoped<IHyperState, HyperState>();
+
+                configure.AddStorage();
                 //var type = typeof(IButtonBase);
                 //var types = AppDomain.CurrentDomain.GetAssemblies()
                 //                        .SelectMany(s => s.GetTypes())

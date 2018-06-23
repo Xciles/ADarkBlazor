@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ADarkBlazor.Services.Buttons;
+using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Interfaces;
-using BlazorExtensions;
+using Blazor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor.Services
@@ -41,16 +42,20 @@ namespace ADarkBlazor.Services
     {
         private bool _isInitialized = false;
         private readonly IServiceProvider _provider;
+        private readonly LocalStorage _localStorage;
         public event Action OnChange;
         public IHyperState HyperState { get; set; }
         public void NotifyStateChanged() => OnChange?.Invoke();
         private Timer _saveStateTimer;
         private IList<IButtonBase> _buttons = new List<IButtonBase>();
 
-        public ApplicationState(IServiceProvider provider, IHyperState hyperState)
+        public ApplicationState(IServiceProvider provider, IHyperState hyperState, LocalStorage localStorage)
         {
             _provider = provider;
+            _localStorage = localStorage;
+
             HyperState = hyperState;
+
             _saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
             ReadState();
         }
@@ -82,12 +87,12 @@ namespace ADarkBlazor.Services
 
         private void SaveState()
         {
-            Browser.WriteStorage("AppState", $"Saved info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {_buttons.Count}");
+            _localStorage.SetItem("AppState", new SaveState { Message = $"Saved info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {_buttons.Count}" });
         }
 
         private void ReadState()
         {
-            var str = Browser.ReadStorage("AppState");
+            var message = _localStorage.GetItem<SaveState>("AppState");
         }
 
         public string Test()
