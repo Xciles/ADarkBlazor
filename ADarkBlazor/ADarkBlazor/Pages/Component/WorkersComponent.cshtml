@@ -1,0 +1,36 @@
+﻿@using ADarkBlazor.Services.Interfaces
+@inject IWorkerService workerService
+
+<div data-legend="Workers" class="workers">
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th width="60%"></th>
+                <th width="40%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var worker in workerService.Workers)
+            {
+                <WorkerComponent Worker=worker></WorkerComponent>
+                @*@if (!worker.IsVisible)
+                {
+                    //continue;
+                }
+                <tr>
+                    <td>@worker.Name</td>
+                    <td class="rightAlign">@worker.NumberOfWorkers</td>
+                    <ButtonWorkerComponent Worker=worker></ButtonWorkerComponent>
+                </tr>*@
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions
+{
+    protected override void OnInit()
+    {
+        workerService.OnChange += StateHasChanged;
+    }
+}

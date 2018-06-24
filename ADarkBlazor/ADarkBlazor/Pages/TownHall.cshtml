@@ -15,14 +15,7 @@
 
 <div class="col-4">
     <h1>The Town Hall</h1>
-    <ul>
-        @foreach (var storyOutput in storyService.StoryOutputs)
-        {
-            <li>
-                <label>@storyOutput.Info</label>
-            </li>
-        }
-    </ul>
+    <StoryComponent></StoryComponent>
 </div>
 
 <div class="col-6">
@@ -53,32 +46,7 @@
 </div>
 
 <div class="col-2">
-    @if (resourceService.Resources.Any(x => x.IsVisible))
-    {
-        <div data-legend="Resources" class="resources">
-            <table style="width: 100%">
-                <thead>
-                    <tr>
-                        <th width="60%"></th>
-                        <th width="40%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var resource in resourceService.Resources)
-                    {
-                        @if (!resource.IsVisible)
-                        {
-                            continue;
-                        }
-                        <tr>
-                            <td>@resource.Name</td>
-                            <td class="rightAlign">@resource.Amount</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+    <ResourceComponent></ResourceComponent>
 </div>
 
 

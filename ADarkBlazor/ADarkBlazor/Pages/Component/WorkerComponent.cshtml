@@ -1,0 +1,22 @@
+﻿@using ADarkBlazor.Services.Workers.Interfaces
+
+@if (!Worker.IsVisible)
+{
+    //continue;
+}
+<tr>
+    <td>@Worker.Name</td>
+    <td class="rightAlign">@Worker.NumberOfWorkers</td>
+    <ButtonWorkerComponent Worker=Worker></ButtonWorkerComponent>
+</tr>
+
+@functions
+{
+    [Parameter]
+    IWorker Worker { get; set; }
+
+    protected override void OnInit()
+    {
+        Worker.OnChange += StateHasChanged;
+    }
+}
