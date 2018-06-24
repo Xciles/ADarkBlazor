@@ -8,8 +8,16 @@ namespace ADarkBlazor.Services.Resources
         public Food(IResourceService resourceService) : base(resourceService)
         {
             Name = "Food";
-            Amount = 100;
+            Reset();
             ResourceType = EResourceType.Food;
+        }
+
+        public override void Reset()
+        {
+            IsVisible = false;
+            Amount = 100;
+
+            NotifyStateChanged();
         }
     }
 }

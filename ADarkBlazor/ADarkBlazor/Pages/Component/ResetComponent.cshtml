@@ -1,9 +1,9 @@
 ﻿@using ADarkBlazor.Services.Buttons
 
-@inject IHyper hyper
+@inject IReset reset
 
-<div class="button hyperButton" onclick="@hyper.Invoke">
-    <span>@hyper.Title</span>
+<div class="button hyperButton resetButton" onclick="@reset.Invoke">
+    <span>@reset.Title</span>
 </div>
 
 @functions

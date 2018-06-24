@@ -42,7 +42,6 @@ namespace ADarkBlazor.Services
     {
         private bool _isInitialized = false;
         private readonly IServiceProvider _provider;
-        private readonly LocalStorage _localStorage;
         private readonly ISaveStateService _saveStateService;
         public event Action OnChange;
         public IHyperState HyperState { get; set; }
@@ -50,17 +49,14 @@ namespace ADarkBlazor.Services
         private Timer _saveStateTimer;
         private IList<IButtonBase> _buttons = new List<IButtonBase>();
 
-        public ApplicationState(IServiceProvider provider, IHyperState hyperState, LocalStorage localStorage, ISaveStateService saveStateService)
+        public ApplicationState(IServiceProvider provider, IHyperState hyperState, ISaveStateService saveStateService)
         {
             _provider = provider;
-            _localStorage = localStorage;
             _saveStateService = saveStateService;
 
             HyperState = hyperState;
 
-            _saveStateTimer = new Timer(SaveStateTimerCallback, null, 1_000, 60 * 1_000);
-            //_saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
-            ReadState();
+            _saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
         }
 
         private void SaveStateTimerCallback(object state)
@@ -86,17 +82,19 @@ namespace ADarkBlazor.Services
 
                 _provider.GetService<IResourceService>().RegisterResources(_provider);
                 _provider.GetService<IWorkerService>().RegisterWorkers(_provider);
+
+                ReadState();
             }
         }
 
         private void SaveState()
         {
-            _localStorage.SetItem("AppState", new SaveState { Message = $"Saved info: {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {_buttons.Count}" });
+            _saveStateService.Save();
         }
 
         private void ReadState()
         {
-            var message = _localStorage.GetItem<SaveState>("AppState");
+            _saveStateService.Load();
         }
 
         public string Test()
@@ -109,11 +107,14 @@ namespace ADarkBlazor.Services
     {
         void Save(SaveState state);
         void Load(SaveState state);
+        void Reset();
     }
 
     public interface ISaveStateService
     {
         void Save();
+        void Load();
+        void Reset();
     }
 
     public class SaveStateService : ISaveStateService
@@ -129,18 +130,11 @@ namespace ADarkBlazor.Services
 
         public void Save()
         {
+            var types = GetAllSaveTypes();
             var state = new SaveState();
-
-            var type = typeof(IHasSaveState);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => p.IsInterface && p.GetInterfaces().Contains(type));
-
-            Console.WriteLine($"number of {types.Count()}");
 
             foreach (var type1 in types)
             {
-                Console.WriteLine($"type: {type1.Name}");
                 var instance = (IHasSaveState) _provider.GetService(type1);
 
                 instance?.Save(state);
@@ -148,6 +142,42 @@ namespace ADarkBlazor.Services
 
             state.Time = DateTime.UtcNow;
             _localStorage.SetItem("SaveState", state);
+        }
+
+        public void Load()
+        {
+            var types = GetAllSaveTypes();
+            var state = _localStorage.GetItem<SaveState>(nameof(SaveState));
+            if (state == null) return; // No save state available
+
+            Console.WriteLine($"{state.Time}");
+            foreach (var type in types)
+            {
+                var instance = (IHasSaveState) _provider.GetService(type);
+                instance?.Load(state);
+            }
+        }
+
+        public void Reset()
+        {
+            var types = GetAllSaveTypes();
+
+            foreach (var type in types)
+            {
+                var instance = (IHasSaveState) _provider.GetService(type);
+                instance?.Reset();
+            }
+
+            _localStorage.Clear();
+        }
+
+        private static IEnumerable<Type> GetAllSaveTypes()
+        {
+            var type = typeof(IHasSaveState);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => p.IsInterface && p.GetInterfaces().Contains(type));
+            return types;
         }
     }
 }

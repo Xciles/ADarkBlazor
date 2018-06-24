@@ -60,6 +60,11 @@ namespace ADarkBlazor.Services
                         AddOutput(@"you slap a tree, you find a lot of wood");
                         break;
                     }
+                case EStoryEventType.Reset:
+                    {
+                        AddOutput(@"Resetting the state.... Bye cruel world.... :'(");
+                        break;
+                    }
                 default:
                     {
                         break;

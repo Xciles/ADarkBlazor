@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ADarkBlazor.Exceptions;
 using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
@@ -48,12 +49,32 @@ namespace ADarkBlazor.Services.Resources
 
         public void Save(SaveState state)
         {
-            state.Message = $"{this.GetType().Name} - {Amount}";
+            state.Resources.Add(new ResourceState()
+            {
+                Name = GetType().Name,
+                Amount = Amount,
+                IsVisible = IsVisible
+            });
         }
 
         public void Load(SaveState state)
         {
-            throw new NotImplementedException();
+            var resource = state.Resources.FirstOrDefault(x => x.Name.Equals(GetType().Name));
+            if (resource != null)
+            {
+                IsVisible = resource.IsVisible;
+                Amount = resource.Amount;
+
+                NotifyStateChanged();
+            }
+        }
+
+        public virtual void Reset()
+        {
+            IsVisible = false;
+            Amount = 0;
+
+            NotifyStateChanged();
         }
     }
 }

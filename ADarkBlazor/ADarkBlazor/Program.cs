@@ -46,6 +46,7 @@ namespace ADarkBlazor
                 configure.AddScoped<ITownHall, TownHall>();
                 configure.AddScoped<IHouse, House>();
 
+                configure.AddScoped<IReset, ResetButton>();
                 configure.AddScoped<IHyper, HyperButton>();
                 configure.AddScoped<IHyperState, HyperState>();
 

@@ -26,7 +26,6 @@ namespace ADarkBlazor.Services.Buttons
         {
             try
             {
-                IsClickable = false;
                 if (_numberOfClicks == 1)
                 {
                     Title = "light fire";
