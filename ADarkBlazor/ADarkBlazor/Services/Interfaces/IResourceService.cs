@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Resources;
+using ADarkBlazor.Services.Resources.Interfaces;
 
 namespace ADarkBlazor.Services.Interfaces
 {

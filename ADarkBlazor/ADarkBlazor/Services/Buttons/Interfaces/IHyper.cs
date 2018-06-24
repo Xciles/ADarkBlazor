@@ -1,4 +1,4 @@
-﻿namespace ADarkBlazor.Services.Buttons
+﻿namespace ADarkBlazor.Services.Buttons.Interfaces
 {
     internal interface IHyper : IButtonBase
     {

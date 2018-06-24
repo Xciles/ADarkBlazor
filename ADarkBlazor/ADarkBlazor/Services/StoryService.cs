@@ -5,6 +5,7 @@ using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Workers;
+using ADarkBlazor.Services.Workers.Interfaces;
 
 namespace ADarkBlazor.Services
 {

@@ -2,6 +2,8 @@
 using System.Threading;
 using ADarkBlazor.Exceptions;
 using ADarkBlazor.Services.Buildings;
+using ADarkBlazor.Services.Buildings.Interfaces;
+using ADarkBlazor.Services.Buttons.Interfaces;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 
@@ -70,45 +72,5 @@ namespace ADarkBlazor.Services.Buttons
 
         // Just implement the timerfinished here. So we don't have to implement this in all classes
         public override void TimerFinished() { }
-    }
-
-    public interface IBuildHouse : IBuilderButtonBase
-    {
-
-    }
-
-    public class BuildHouse : BuilderButtonBase, IBuildHouse
-    {
-        public BuildHouse(ApplicationState state, IStoryService storyService, IHouse house) : base(state, storyService, house)
-        {
-            IsVisible = true;
-            IsClickable = true;
-            Title = "Build House";
-        }
-    }
-
-    public interface IBuildTownHall : IBuilderButtonBase
-    {
-
-    }
-
-    public class BuildTownHall : BuilderButtonBase, IBuildTownHall
-    {
-        public BuildTownHall(ApplicationState state, IStoryService storyService, ITownHall townHall) : base(state, storyService, townHall)
-        {
-            IsVisible = true;
-            IsClickable = true;
-            Title = "Build Town Hall";
-        }
-
-        public override void TimerFinished()
-        {
-            base.TimerFinished();
-
-            if (Building.NumberOfBuildings > 0)
-            {
-                IsClickable = false;
-            }
-        }
     }
 }

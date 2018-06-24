@@ -1,4 +1,5 @@
 ﻿using ADarkBlazor.Services.Interfaces;
+using ADarkBlazor.Services.Resources.Interfaces;
 
 namespace ADarkBlazor.Services.Resources
 {

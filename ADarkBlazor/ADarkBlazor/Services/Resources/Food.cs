@@ -1,5 +1,6 @@
 ﻿using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
+using ADarkBlazor.Services.Resources.Interfaces;
 
 namespace ADarkBlazor.Services.Resources
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ADarkBlazor.Services.Domain.Enums;
 
-namespace ADarkBlazor.Services.Resources
+namespace ADarkBlazor.Services.Resources.Interfaces
 {
     public interface IResource : IHasSaveState
     {

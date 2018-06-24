@@ -1,7 +1,8 @@
 ﻿@using ADarkBlazor.Services
 @using ADarkBlazor.Services.Interfaces
-@using ADarkBlazor.Services.Buttons
-@using ADarkBlazor.Services.Workers
+@using ADarkBlazor.Services.Buttons.Interfaces
+@using ADarkBlazor.Services.Workers.Interfaces
+
 @inject ApplicationState state
 @inject IWorkerService workerService
 @inject IResourceService resourceService
@@ -11,7 +12,6 @@
 @inject IWoodGatherer woodGatherer
 @inject IFisherman fisherman
 @page "/townhall"
-
 
 <div class="col-4">
     <h1>The Town Hall</h1>

@@ -1,4 +1,6 @@
-﻿namespace ADarkBlazor.Services.Buttons
+﻿using ADarkBlazor.Services.Buttons.Interfaces;
+
+namespace ADarkBlazor.Services.Buttons
 {
     public class HyperButton : ButtonBase, IHyper
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Resources;
 using ADarkBlazor.Services.Workers;
+using ADarkBlazor.Services.Workers.Interfaces;
 
 namespace ADarkBlazor.Services
 {
