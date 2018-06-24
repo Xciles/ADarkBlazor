@@ -1,5 +1,6 @@
 ﻿using System;
 using ADarkBlazor.Exceptions;
+using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 
@@ -43,6 +44,16 @@ namespace ADarkBlazor.Services.Resources
         {
             IsVisible = true;
             NotifyStateChanged();
+        }
+
+        public void Save(SaveState state)
+        {
+            state.Message = $"{this.GetType().Name} - {Amount}";
+        }
+
+        public void Load(SaveState state)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -43,26 +43,30 @@ namespace ADarkBlazor.Services
         private bool _isInitialized = false;
         private readonly IServiceProvider _provider;
         private readonly LocalStorage _localStorage;
+        private readonly ISaveStateService _saveStateService;
         public event Action OnChange;
         public IHyperState HyperState { get; set; }
         public void NotifyStateChanged() => OnChange?.Invoke();
         private Timer _saveStateTimer;
         private IList<IButtonBase> _buttons = new List<IButtonBase>();
 
-        public ApplicationState(IServiceProvider provider, IHyperState hyperState, LocalStorage localStorage)
+        public ApplicationState(IServiceProvider provider, IHyperState hyperState, LocalStorage localStorage, ISaveStateService saveStateService)
         {
             _provider = provider;
             _localStorage = localStorage;
+            _saveStateService = saveStateService;
 
             HyperState = hyperState;
 
-            _saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
+            _saveStateTimer = new Timer(SaveStateTimerCallback, null, 1_000, 60 * 1_000);
+            //_saveStateTimer = new Timer(SaveStateTimerCallback, null, 60 * 1_000, 60 * 1_000);
             ReadState();
         }
 
         private void SaveStateTimerCallback(object state)
         {
             SaveState();
+            _saveStateService.Save();
         }
 
         public void RegisterButtons()
@@ -98,6 +102,52 @@ namespace ADarkBlazor.Services
         public string Test()
         {
             return $"{DateTime.Now:HH:mm:ss}";
+        }
+    }
+
+    public interface IHasSaveState
+    {
+        void Save(SaveState state);
+        void Load(SaveState state);
+    }
+
+    public interface ISaveStateService
+    {
+        void Save();
+    }
+
+    public class SaveStateService : ISaveStateService
+    {
+        private readonly IServiceProvider _provider;
+        private readonly LocalStorage _localStorage;
+
+        public SaveStateService(IServiceProvider provider, LocalStorage localStorage)
+        {
+            _provider = provider;
+            _localStorage = localStorage;
+        }
+
+        public void Save()
+        {
+            var state = new SaveState();
+
+            var type = typeof(IHasSaveState);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => p.IsInterface && p.GetInterfaces().Contains(type));
+
+            Console.WriteLine($"number of {types.Count()}");
+
+            foreach (var type1 in types)
+            {
+                Console.WriteLine($"type: {type1.Name}");
+                var instance = (IHasSaveState) _provider.GetService(type1);
+
+                instance?.Save(state);
+            }
+
+            state.Time = DateTime.UtcNow;
+            _localStorage.SetItem("SaveState", state);
         }
     }
 }

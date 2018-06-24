@@ -3,7 +3,7 @@ using ADarkBlazor.Services.Domain.Enums;
 
 namespace ADarkBlazor.Services.Resources
 {
-    public interface IResource
+    public interface IResource : IHasSaveState
     {
         event Action OnChange;
         bool IsVisible { get; set; }
