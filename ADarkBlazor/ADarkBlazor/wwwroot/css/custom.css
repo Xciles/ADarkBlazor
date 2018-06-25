@@ -59,9 +59,9 @@ div.button div.cooldown {
     width: 100%;
 }
 
-div.button div.cooldown:hover {
-    animation: noAnimation;
-}
+    div.button div.cooldown:hover {
+        animation: noAnimation;
+    }
 
 div.button div.cooldownResizeContainer {
     position: absolute;
@@ -97,6 +97,7 @@ div.workerButtons {
 .resources {
     border: 1px solid black;
     padding: 5px 10px;
+    position: relative;
 }
 
 .workers {
@@ -116,6 +117,7 @@ div.workerButtons {
 
 td.rightAlign {
     text-align: right;
+    width: 100%;
 }
 
 .notClickable {
@@ -140,6 +142,62 @@ td.rightAlign {
 .hyperButton span {
     position: relative;
     text-transform: uppercase;
-    font-weight:bold;
+    font-weight: bold;
     color: white;
+}
+
+.popOver {
+    display: none;
+    opacity: 0;
+    position: relative;
+    z-index: 4;
+    bottom: -10px;
+    width: inherit;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    height: 40px;
+    line-height: 40px;
+    transition: opacity 0.5s;
+}
+/* change display on hover*/
+.button:hover + .popOver {
+    display: block;
+    opacity: 1;
+}
+tr:hover > .popOver {
+    position: absolute;
+    display: block;
+    opacity: 1;
+    top:125%;
+    bottom:unset;
+    width: 100%;
+    
+}
+
+.popOver span {
+    position: relative;
+    font-weight: bold;
+    color: white;
+}
+
+.resources tr {
+    position: relative;
+    display: block;
+}
+/*CSS ARROW*/
+.popOver:before {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(255, 0, 0, 0);
+    border-bottom-color: rgb(5, 39, 103);
+    border-width: 10px;
+    margin-left: -10px;
 }

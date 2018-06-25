@@ -7,6 +7,10 @@
             <div class="cooldown" style=@(!ButtonBase.IsClickable ? $"animation: animationWidth {ButtonBase.RemainingCooldown}ms linear;" : "")></div>
         </div>
     </div>
+    <div class="popOver">
+        @* IDK what to put here, so have fun. *@
+        <span>@(ButtonBase.Cooldown / 1000) second(s)</span>
+    </div>
 </div>
 
 @functions
