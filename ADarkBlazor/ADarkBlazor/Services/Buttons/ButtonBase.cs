@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using ADarkBlazor.Services.Buttons.Interfaces;
 using ADarkBlazor.Services.Domain.Enums;
 
 namespace ADarkBlazor.Services.Buttons
@@ -29,22 +30,23 @@ namespace ADarkBlazor.Services.Buttons
             set { if (!(_cooldown.Equals(value))) _cooldown = value; }
         }
 
-        public void Invoke()
+        public virtual void Invoke()
         {
             if (IsClickable)
             {
                 IsClickable = false;
                 RemainingCooldown = Cooldown;
+
                 InvokeImplementation();
 
                 NotifyStateChanged();
 
                 _timer?.Dispose();
-                _timer = new Timer(Callback, null, 0, Interval);
+                _timer = new Timer(ButtonCallback, null, 0, Interval);
             }
         }
 
-        private void Callback(object state)
+        private void ButtonCallback(object state)
         {
             RemainingCooldown -= Interval;
             if (RemainingCooldown <= 0)

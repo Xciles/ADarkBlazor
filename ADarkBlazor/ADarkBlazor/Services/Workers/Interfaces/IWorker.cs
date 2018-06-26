@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ADarkBlazor.Services.Workers
+namespace ADarkBlazor.Services.Workers.Interfaces
 {
     public interface IWorker
     {

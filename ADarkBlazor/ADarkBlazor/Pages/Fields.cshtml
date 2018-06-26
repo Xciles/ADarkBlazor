@@ -1,10 +1,11 @@
 ﻿@using ADarkBlazor.Services
-@using ADarkBlazor.Services.Buttons
+@using ADarkBlazor.Services.Buttons.Interfaces
 @using ADarkBlazor.Services.Interfaces
 
 @inject ApplicationState state
 @inject IStory story
 @inject IHyper hyper
+@inject IReset reset
 @page "/fields"
 
 
@@ -24,6 +25,7 @@
     <ResourceComponent></ResourceComponent>
 </div>
 <div class="floatingButton">
+    <ResetComponent ButtonBase=reset></ResetComponent>
     <HyperComponent ButtonBase=hyper></HyperComponent>
 </div>
 

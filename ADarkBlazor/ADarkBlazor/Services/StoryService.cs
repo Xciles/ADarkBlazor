@@ -5,6 +5,7 @@ using ADarkBlazor.Services.Domain;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Workers;
+using ADarkBlazor.Services.Workers.Interfaces;
 
 namespace ADarkBlazor.Services
 {
@@ -58,6 +59,11 @@ namespace ADarkBlazor.Services
                 case EStoryEventType.GatherWood:
                     {
                         AddOutput(@"you slap a tree, you find a lot of wood");
+                        break;
+                    }
+                case EStoryEventType.Reset:
+                    {
+                        AddOutput(@"Resetting the state.... Bye cruel world.... :'(");
                         break;
                     }
                 default:

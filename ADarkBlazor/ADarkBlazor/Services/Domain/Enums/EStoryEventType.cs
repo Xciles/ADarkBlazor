@@ -8,6 +8,9 @@
 
 
         // Gathering
-        GatherWood = 100
+        GatherWood = 100,
+
+        // Reset
+        Reset = 1000
     }
 }

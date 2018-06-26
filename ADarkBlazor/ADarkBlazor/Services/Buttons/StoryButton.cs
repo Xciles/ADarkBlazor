@@ -1,8 +1,10 @@
 ﻿using System.Threading;
 using ADarkBlazor.Exceptions;
+using ADarkBlazor.Services.Buttons.Interfaces;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Resources;
+using ADarkBlazor.Services.Resources.Interfaces;
 
 namespace ADarkBlazor.Services.Buttons
 {
@@ -26,7 +28,6 @@ namespace ADarkBlazor.Services.Buttons
         {
             try
             {
-                IsClickable = false;
                 if (_numberOfClicks == 1)
                 {
                     Title = "light fire";

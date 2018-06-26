@@ -4,10 +4,15 @@ using System;
 using System.Linq;
 using ADarkBlazor.Services;
 using ADarkBlazor.Services.Buildings;
+using ADarkBlazor.Services.Buildings.Interfaces;
 using ADarkBlazor.Services.Buttons;
+using ADarkBlazor.Services.Buttons.Interfaces;
 using ADarkBlazor.Services.Interfaces;
 using ADarkBlazor.Services.Resources;
+using ADarkBlazor.Services.Resources.Interfaces;
 using ADarkBlazor.Services.Workers;
+using ADarkBlazor.Services.Workers.Interfaces;
+using Blazor.Extensions.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ADarkBlazor
@@ -26,6 +31,7 @@ namespace ADarkBlazor
                 configure.AddScoped<IStoryService, StoryService>();
                 configure.AddScoped<IUserInputService, UserInputService>();
                 configure.AddScoped<IVisibilityService, VisibilityService>();
+                configure.AddScoped<ISaveStateService, SaveStateService>();
 
                 configure.AddScoped<IStory, StoryButton>();
                 configure.AddScoped<IGatherWood, GatherWoodButton>();
@@ -44,8 +50,11 @@ namespace ADarkBlazor
                 configure.AddScoped<ITownHall, TownHall>();
                 configure.AddScoped<IHouse, House>();
 
+                configure.AddScoped<IReset, ResetButton>();
                 configure.AddScoped<IHyper, HyperButton>();
                 configure.AddScoped<IHyperState, HyperState>();
+
+                configure.AddStorage();
                 //var type = typeof(IButtonBase);
                 //var types = AppDomain.CurrentDomain.GetAssemblies()
                 //                        .SelectMany(s => s.GetTypes())

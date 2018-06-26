@@ -1,7 +1,7 @@
 ﻿using System;
 using ADarkBlazor.Services.Domain.Enums;
 
-namespace ADarkBlazor.Services.Buttons
+namespace ADarkBlazor.Services.Buttons.Interfaces
 {
     public interface IButtonBase
     {

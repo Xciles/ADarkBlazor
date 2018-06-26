@@ -2,46 +2,28 @@
 using System.Threading;
 using ADarkBlazor.Exceptions;
 using ADarkBlazor.Services.Buildings;
+using ADarkBlazor.Services.Buildings.Interfaces;
+using ADarkBlazor.Services.Buttons.Interfaces;
 using ADarkBlazor.Services.Domain.Enums;
 using ADarkBlazor.Services.Interfaces;
 
 namespace ADarkBlazor.Services.Buttons
 {
-    public abstract class BuilderButtonBase : IBuilderButtonBase
+    public abstract class BuilderButtonBase : ButtonBase, IBuilderButtonBase
     {
         protected IBuilding Building { get; }
-        public event Action OnChange;
         private Timer _timer;
         private const int Interval = 100;
-        private int _cooldown;
 
-        protected void NotifyStateChanged()
-        {
-            OnChange?.Invoke();
-            State.NotifyStateChanged();
-        }
-
-        protected ApplicationState State { get; }
         protected IStoryService StoryService { get; }
-        public bool IsVisible { get; set; }
-        public bool IsClickable { get; set; }
-        public virtual EButtonType ButtonType { get; set; }
-        public string Title { get; set; }
-        public int RemainingCooldown { get; set; }
-        public int Cooldown
-        {
-            get => _cooldown / State.HyperState.DivideBy;
-            set { if (!(_cooldown.Equals(value))) _cooldown = value; }
-        }
 
-        protected BuilderButtonBase(ApplicationState state, IStoryService storyService, IBuilding building)
+        protected BuilderButtonBase(ApplicationState state, IStoryService storyService, IBuilding building) : base (state)
         {
             Building = building;
-            State = state;
             StoryService = storyService;
         }
 
-        public void Invoke()
+        public override void Invoke()
         {
             if (IsClickable)
             {
@@ -54,11 +36,11 @@ namespace ADarkBlazor.Services.Buttons
                 NotifyStateChanged();
 
                 _timer?.Dispose();
-                _timer = new Timer(Callback, null, 0, Interval);
+                _timer = new Timer(ButtonBuildingCallback, null, 0, Interval);
             }
         }
 
-        private void Callback(object state)
+        private void ButtonBuildingCallback(object state)
         {
             RemainingCooldown -= Interval;
             if (RemainingCooldown <= 0)
@@ -72,7 +54,7 @@ namespace ADarkBlazor.Services.Buttons
             }
         }
 
-        public virtual void InvokeImplementation()
+        public override void InvokeImplementation()
         {
             try
             {
@@ -88,46 +70,7 @@ namespace ADarkBlazor.Services.Buttons
             }
         }
 
-        public virtual void TimerFinished() { }
-    }
-
-    public interface IBuildHouse : IBuilderButtonBase
-    {
-
-    }
-
-    public class BuildHouse : BuilderButtonBase, IBuildHouse
-    {
-        public BuildHouse(ApplicationState state, IStoryService storyService, IHouse house) : base(state, storyService, house)
-        {
-            IsVisible = true;
-            IsClickable = true;
-            Title = "Build House";
-        }
-    }
-
-    public interface IBuildTownHall : IBuilderButtonBase
-    {
-
-    }
-
-    public class BuildTownHall : BuilderButtonBase, IBuildTownHall
-    {
-        public BuildTownHall(ApplicationState state, IStoryService storyService, ITownHall townHall) : base(state, storyService, townHall)
-        {
-            IsVisible = true;
-            IsClickable = true;
-            Title = "Build Town Hall";
-        }
-
-        public override void TimerFinished()
-        {
-            base.TimerFinished();
-
-            if (Building.NumberOfBuildings > 0)
-            {
-                IsClickable = false;
-            }
-        }
+        // Just implement the timerfinished here. So we don't have to implement this in all classes
+        public override void TimerFinished() { }
     }
 }
