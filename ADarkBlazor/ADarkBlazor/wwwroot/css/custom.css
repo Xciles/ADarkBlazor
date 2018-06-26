@@ -166,14 +166,14 @@ td.rightAlign {
     display: block;
     opacity: 1;
 }
+
 tr:hover > .popOver {
     position: absolute;
     display: block;
     opacity: 1;
-    top:125%;
-    bottom:unset;
+    top: 125%;
+    bottom: unset;
     width: 100%;
-    
 }
 
 .popOver span {
@@ -200,4 +200,8 @@ tr:hover > .popOver {
     border-bottom-color: rgb(5, 39, 103);
     border-width: 10px;
     margin-left: -10px;
+}
+
+.floatingButton .resetButton {
+    right: 200px;
 }
