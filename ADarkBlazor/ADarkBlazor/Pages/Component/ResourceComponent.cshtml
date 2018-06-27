@@ -18,10 +18,14 @@
                     {
                         continue;
                     }
-                    <tr>
-                        <td>@resource.Name</td>
-                        <td class="rightAlign">@resource.Amount</td>
-                    </tr>
+                <tr>
+                    <td>@resource.Name</td>
+                    <td class="rightAlign">@resource.Amount</td>
+                    <div class="popOver">
+                        <span>@resource.Amount</span>
+                    </div>
+                </tr>
+               
                 }
             </tbody>
         </table>
